@@ -25,7 +25,7 @@
 - [x] Create `test/integration/` directory
 - [x] Create `test/fixtures/` directory
 - [ ] Create `test/fixtures/schema.sql` with tables, indexes, and constraints for tests
-- [ ] Create `.github/workflows/` directory
+- [x] Create `.github/workflows/` directory
 
 ### 1.3 Install Dependencies
 - [ ] Run `go get github.com/spf13/cobra@v1.9.0`
