@@ -233,17 +233,17 @@
 - [x] If `--psql` or `--format psql`: call `exec.Command("psql", "-d", dsn).Run()` and pass stdin/stdout
 
 ### 5.5 `dbfork drop`
-- [ ] Create `internal/cli/drop.go`
-- [ ] Register `dropCmd`: `Use: "drop <name>"`
-- [ ] Mark args as `cobra.ExactArgs(1)`
-- [ ] Add `--force` bool flag
-- [ ] Load state, find branch — error if not found
-- [ ] If not `--force`: prompt `"Drop branch 'feature-x'? This cannot be undone. [y/N]: "`
-- [ ] Read from `bufio.NewReader(os.Stdin)` — exit if not "y"
-- [ ] Connect to maintenance DB
-- [ ] Call `DropBranch()` — this terminates connections first, then drops DB
-- [ ] Call `RemoveBranch()` and `state.Save()`
-- [ ] Print: `✓ Dropped branch 'feature-add-users'`
+- [x] Create `internal/cli/drop.go`
+- [x] Register `dropCmd`: `Use: "drop <name>"`
+- [x] Mark args as `cobra.ExactArgs(1)`
+- [x] Add `--force` bool flag
+- [x] Load state, find branch — error if not found
+- [x] If not `--force`: prompt `"Drop branch 'feature-x'? This cannot be undone. [y/N]: "`
+- [x] Read from `bufio.NewReader(os.Stdin)` — exit if not "y"
+- [x] Connect to maintenance DB
+- [x] Call `DropBranch()` — this terminates connections first, then drops DB
+- [x] Call `RemoveBranch()` and `state.Save()`
+- [x] Print: `✓ Dropped branch 'feature-add-users'`
 
 ### 5.6 `dbfork diff`
 - [ ] Create `internal/cli/diff.go`
