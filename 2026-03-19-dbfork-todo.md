@@ -165,16 +165,16 @@
 ## Phase 4: Branch Name Validation
 
 ### 4.1 Name Sanitizer
-- [ ] Create `internal/cli/names.go`
-- [ ] Implement `SanitizeBranchName(input string) (string, error)`
-- [ ] Return error if input is empty
-- [ ] Return error if input length > 50 chars (leave room for `dbfork_` prefix + Postgres 63 char limit)
-- [ ] Convert to lowercase using `strings.ToLower`
-- [ ] Replace spaces and hyphens with underscores
-- [ ] Strip any characters not matching `[a-z0-9_]`
-- [ ] Prepend `dbfork_` prefix
-- [ ] Return error if sanitized name is `dbfork_` (input was entirely invalid chars)
-- [ ] Implement `DisplayName(dbName string) string` — strips `dbfork_` prefix for display
+- [x] Create `internal/cli/names.go`
+- [x] Implement `SanitizeBranchName(input string) (string, error)`
+- [x] Return error if input is empty
+- [x] Return error if input length > 50 chars (leave room for `dbfork_` prefix + Postgres 63 char limit)
+- [x] Convert to lowercase using `strings.ToLower`
+- [x] Replace spaces and hyphens with underscores
+- [x] Strip any characters not matching `[a-z0-9_]`
+- [x] Prepend `dbfork_` prefix
+- [x] Return error if sanitized name is `dbfork_` (input was entirely invalid chars)
+- [x] Implement `DisplayName(dbName string) string` — strips `dbfork_` prefix for display
 
 ---
 
