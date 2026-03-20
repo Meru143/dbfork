@@ -1,6 +1,6 @@
 module github.com/owner/dbfork
 
-go 1.25.6
+go 1.25.8
 
 require (
 	github.com/spf13/cobra v1.9.0

@@ -78,7 +78,7 @@ func startContainer(ctx context.Context) (testcontainers.Container, config.Confi
 			"POSTGRES_USER":     "test",
 			"POSTGRES_DB":       "testdb",
 		},
-		WaitingFor: wait.ForLog("database system is ready").WithOccurrence(1).WithStartupTimeout(2 * time.Minute),
+		WaitingFor: wait.ForLog("database system is ready to accept connections").WithOccurrence(2).WithStartupTimeout(2 * time.Minute),
 	}
 
 	container, err := testcontainers.GenericContainer(ctx, testcontainers.GenericContainerRequest{

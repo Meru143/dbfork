@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"context"
 	"os"
+	"path/filepath"
 	"strings"
 	"testing"
 
@@ -51,7 +52,8 @@ func TestRunUseWritesActiveBranchFileAndPrintsDSN(t *testing.T) {
 		t.Fatalf("run use: %v", err)
 	}
 
-	if writtenPath != `C:\work\app\.dbfork` {
+	expectedPath := filepath.Join(`C:\work\app`, ".dbfork")
+	if writtenPath != expectedPath {
 		t.Fatalf("unexpected file path: %q", writtenPath)
 	}
 
