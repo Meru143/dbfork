@@ -15,7 +15,7 @@
 - [x] Run `git init && git add -A && git commit -m "chore: initial scaffold"`
 
 ### 1.2 Directory Structure
-- [ ] Create `cmd/dbfork/` directory
+- [x] Create `cmd/dbfork/` directory
 - [ ] Create `cmd/dbfork/main.go` with `func main() { cli.Execute() }`
 - [ ] Create `internal/cli/` directory
 - [ ] Create `internal/postgres/` directory
