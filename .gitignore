@@ -4,3 +4,9 @@ bin/
 *.db
 .env
 dist/
+*-prd.md
+*-todo.md
+skills-lock.json
+.agent/skills/
+.agents/skills/
+.claude/skills/
