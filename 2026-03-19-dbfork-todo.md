@@ -16,7 +16,7 @@
 
 ### 1.2 Directory Structure
 - [x] Create `cmd/dbfork/` directory
-- [ ] Create `cmd/dbfork/main.go` with `func main() { cli.Execute() }`
+- [x] Create `cmd/dbfork/main.go` with `func main() { cli.Execute() }`
 - [ ] Create `internal/cli/` directory
 - [ ] Create `internal/postgres/` directory
 - [ ] Create `internal/state/` directory
