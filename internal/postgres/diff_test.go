@@ -94,6 +94,41 @@ func TestGetColumnsReturnsColumnMetadataInOrdinalOrder(t *testing.T) {
 	}
 }
 
+func TestDiffColumnsDetectsAddedDroppedTypeAndNullabilityChanges(t *testing.T) {
+	diffs := DiffColumns(
+		[]ColumnInfo{
+			{Name: "id", DataType: "bigint", IsNullable: "NO"},
+			{Name: "email", DataType: "text", IsNullable: "YES"},
+			{Name: "legacy_code", DataType: "text", IsNullable: "YES"},
+		},
+		[]ColumnInfo{
+			{Name: "id", DataType: "uuid", IsNullable: "NO"},
+			{Name: "email", DataType: "text", IsNullable: "NO"},
+			{Name: "bio", DataType: "text", IsNullable: "YES"},
+		},
+	)
+
+	if len(diffs) != 4 {
+		t.Fatalf("expected 4 diffs, got %d: %+v", len(diffs), diffs)
+	}
+
+	if diffs[0].Name != "id" || diffs[0].Status != "type_changed" || diffs[0].OldType != "bigint" || diffs[0].NewType != "uuid" {
+		t.Fatalf("unexpected type diff: %+v", diffs[0])
+	}
+
+	if diffs[1].Name != "email" || diffs[1].Status != "nullability_changed" {
+		t.Fatalf("unexpected nullability diff: %+v", diffs[1])
+	}
+
+	if diffs[2].Name != "bio" || diffs[2].Status != "added" || diffs[2].NewType != "text" {
+		t.Fatalf("unexpected added diff: %+v", diffs[2])
+	}
+
+	if diffs[3].Name != "legacy_code" || diffs[3].Status != "dropped" || diffs[3].OldType != "text" {
+		t.Fatalf("unexpected dropped diff: %+v", diffs[3])
+	}
+}
+
 func startPostgresContainer(t *testing.T, ctx context.Context) (testcontainers.Container, *pgx.Conn) {
 	t.Helper()
 

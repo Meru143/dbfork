@@ -123,3 +123,55 @@ func GetColumns(ctx context.Context, conn *pgx.Conn, schema, tableName string) (
 
 	return columns, nil
 }
+
+// DiffColumns compares ordered column metadata between source and branch.
+func DiffColumns(sourceCols, branchCols []ColumnInfo) []ColumnDiff {
+	sourceByName := make(map[string]ColumnInfo, len(sourceCols))
+	for _, column := range sourceCols {
+		sourceByName[column.Name] = column
+	}
+
+	var diffs []ColumnDiff
+	seen := make(map[string]struct{}, len(branchCols))
+	for _, branchColumn := range branchCols {
+		sourceColumn, ok := sourceByName[branchColumn.Name]
+		if !ok {
+			diffs = append(diffs, ColumnDiff{
+				Name:    branchColumn.Name,
+				Status:  "added",
+				NewType: branchColumn.DataType,
+			})
+			continue
+		}
+
+		seen[branchColumn.Name] = struct{}{}
+		switch {
+		case sourceColumn.DataType != branchColumn.DataType:
+			diffs = append(diffs, ColumnDiff{
+				Name:    branchColumn.Name,
+				Status:  "type_changed",
+				OldType: sourceColumn.DataType,
+				NewType: branchColumn.DataType,
+			})
+		case sourceColumn.IsNullable != branchColumn.IsNullable:
+			diffs = append(diffs, ColumnDiff{
+				Name:   branchColumn.Name,
+				Status: "nullability_changed",
+			})
+		}
+	}
+
+	for _, sourceColumn := range sourceCols {
+		if _, ok := seen[sourceColumn.Name]; ok {
+			continue
+		}
+
+		diffs = append(diffs, ColumnDiff{
+			Name:    sourceColumn.Name,
+			Status:  "dropped",
+			OldType: sourceColumn.DataType,
+		})
+	}
+
+	return diffs
+}
