@@ -191,23 +191,23 @@
 - [x] Print success message with config file path
 
 ### 5.2 `dbfork create`
-- [ ] Create `internal/cli/create.go`
-- [ ] Register `createCmd`: `Use: "create <name>"`
-- [ ] Mark `args` as `cobra.ExactArgs(1)`
-- [ ] Add `--source` flag (string, defaults to config `default_database`)
-- [ ] Load config and state
-- [ ] Call `SanitizeBranchName(args[0])`
-- [ ] Check state for existing branch with same name — error `E001` if found
-- [ ] Connect to `postgres` (maintenance DB) using `ConnectToDatabase(ctx, cfg, "postgres")`
-- [ ] Call `HasCreateDBPrivilege()` — error `E004` if false
-- [ ] Call `DatabaseExists()` for branch name in Postgres — error `E001` if already exists in PG
-- [ ] Call `TerminateIdleConnections()` for source DB — print count of terminated connections
-- [ ] Call `CountActiveConnections()` — warn if > 0 active connections remain
-- [ ] Show spinner using `lipgloss` animation during `CreateBranch()`
-- [ ] Call `CreateBranch(ctx, conn, source, branchName)`
-- [ ] On success: build `Branch` struct, call `AddBranch()`, call `state.Save()`
-- [ ] Print: `✓ Created branch 'feature-add-users'`
-- [ ] Print: `  Connect: dbfork connect feature-add-users`
+- [x] Create `internal/cli/create.go`
+- [x] Register `createCmd`: `Use: "create <name>"`
+- [x] Mark `args` as `cobra.ExactArgs(1)`
+- [x] Add `--source` flag (string, defaults to config `default_database`)
+- [x] Load config and state
+- [x] Call `SanitizeBranchName(args[0])`
+- [x] Check state for existing branch with same name — error `E001` if found
+- [x] Connect to `postgres` (maintenance DB) using `ConnectToDatabase(ctx, cfg, "postgres")`
+- [x] Call `HasCreateDBPrivilege()` — error `E004` if false
+- [x] Call `DatabaseExists()` for branch name in Postgres — error `E001` if already exists in PG
+- [x] Call `TerminateIdleConnections()` for source DB — print count of terminated connections
+- [x] Call `CountActiveConnections()` — warn if > 0 active connections remain
+- [x] Show spinner using `lipgloss` animation during `CreateBranch()`
+- [x] Call `CreateBranch(ctx, conn, source, branchName)`
+- [x] On success: build `Branch` struct, call `AddBranch()`, call `state.Save()`
+- [x] Print: `✓ Created branch 'feature-add-users'`
+- [x] Print: `  Connect: dbfork connect feature-add-users`
 
 ### 5.3 `dbfork list`
 - [ ] Create `internal/cli/list.go`
