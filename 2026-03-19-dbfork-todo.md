@@ -154,11 +154,11 @@
 
 ### 3.4 Full Diff Orchestrator
 - [ ] In `internal/postgres/diff.go`
-- [ ] Implement `ComputeSchemaDiff(ctx context.Context, sourceConn, branchConn *pgx.Conn) (*SchemaDiff, error)`
-- [ ] Get table names from both DBs
-- [ ] Diff tables: record added/dropped
-- [ ] For each shared table: get columns from both, diff them, add to `ChangedTables` if any diffs found
-- [ ] For each shared table: get indexes from both, diff them
+- [x] Implement `ComputeSchemaDiff(ctx context.Context, sourceConn, branchConn *pgx.Conn) (*SchemaDiff, error)`
+- [x] Get table names from both DBs
+- [x] Diff tables: record added/dropped
+- [x] For each shared table: get columns from both, diff them, add to `ChangedTables` if any diffs found
+- [x] For each shared table: get indexes from both, diff them
 
 ---
 

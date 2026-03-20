@@ -2,7 +2,9 @@ package postgres
 
 import (
 	"context"
+	"fmt"
 	"testing"
+	"time"
 
 	"github.com/jackc/pgx/v5"
 	"github.com/testcontainers/testcontainers-go"
@@ -28,7 +30,7 @@ func TestDiffTablesReturnsAddedAndDroppedTables(t *testing.T) {
 
 func TestGetTableNamesReturnsSortedBaseTables(t *testing.T) {
 	ctx := context.Background()
-	container, conn := startPostgresContainer(t, ctx)
+	container, conn, _ := startPostgresContainer(t, ctx)
 	defer func() {
 		conn.Close(ctx)
 		_ = container.Terminate(ctx)
@@ -56,7 +58,7 @@ func TestGetTableNamesReturnsSortedBaseTables(t *testing.T) {
 
 func TestGetColumnsReturnsColumnMetadataInOrdinalOrder(t *testing.T) {
 	ctx := context.Background()
-	container, conn := startPostgresContainer(t, ctx)
+	container, conn, _ := startPostgresContainer(t, ctx)
 	defer func() {
 		conn.Close(ctx)
 		_ = container.Terminate(ctx)
@@ -131,7 +133,7 @@ func TestDiffColumnsDetectsAddedDroppedTypeAndNullabilityChanges(t *testing.T) {
 
 func TestGetIndexesReturnsSortedIndexNames(t *testing.T) {
 	ctx := context.Background()
-	container, conn := startPostgresContainer(t, ctx)
+	container, conn, _ := startPostgresContainer(t, ctx)
 	defer func() {
 		conn.Close(ctx)
 		_ = container.Terminate(ctx)
@@ -179,7 +181,80 @@ func TestDiffIndexesReturnsAddedAndDroppedIndexes(t *testing.T) {
 	}
 }
 
-func startPostgresContainer(t *testing.T, ctx context.Context) (testcontainers.Container, *pgx.Conn) {
+func TestComputeSchemaDiffDetectsTableColumnAndIndexChanges(t *testing.T) {
+	ctx := context.Background()
+	container, sourceConn, cfg := startPostgresContainer(t, ctx)
+	defer func() {
+		_ = container.Terminate(ctx)
+	}()
+
+	if _, err := sourceConn.Exec(ctx, "CREATE TABLE users (id BIGSERIAL PRIMARY KEY, email TEXT NOT NULL)"); err != nil {
+		t.Fatalf("create users table: %v", err)
+	}
+	if _, err := sourceConn.Exec(ctx, "CREATE TABLE sessions (id BIGSERIAL PRIMARY KEY, user_id BIGINT NOT NULL)"); err != nil {
+		t.Fatalf("create sessions table: %v", err)
+	}
+
+	maintenanceConn, err := ConnectToDatabase(ctx, cfg, "postgres")
+	if err != nil {
+		t.Fatalf("connect to maintenance db: %v", err)
+	}
+	defer maintenanceConn.Close(ctx)
+
+	branchName := fmt.Sprintf("dbfork_diff_%d", time.Now().UnixNano())
+	sourceConn.Close(ctx)
+	if err := CreateBranch(ctx, maintenanceConn, cfg.Database, branchName); err != nil {
+		t.Fatalf("create branch db: %v", err)
+	}
+	defer func() {
+		_ = DropBranch(ctx, maintenanceConn, branchName)
+	}()
+
+	sourceConn, err = ConnectToDatabase(ctx, cfg, cfg.Database)
+	if err != nil {
+		t.Fatalf("reconnect to source db: %v", err)
+	}
+	defer sourceConn.Close(ctx)
+
+	branchConn, err := ConnectToDatabase(ctx, cfg, branchName)
+	if err != nil {
+		t.Fatalf("connect to branch db: %v", err)
+	}
+	defer branchConn.Close(ctx)
+
+	if _, err := branchConn.Exec(ctx, "ALTER TABLE users ADD COLUMN bio TEXT"); err != nil {
+		t.Fatalf("add column: %v", err)
+	}
+	if _, err := branchConn.Exec(ctx, "CREATE INDEX idx_users_email ON users (email)"); err != nil {
+		t.Fatalf("create index: %v", err)
+	}
+	if _, err := branchConn.Exec(ctx, "DROP TABLE sessions"); err != nil {
+		t.Fatalf("drop sessions table: %v", err)
+	}
+
+	diff, err := ComputeSchemaDiff(ctx, sourceConn, branchConn)
+	if err != nil {
+		t.Fatalf("compute schema diff: %v", err)
+	}
+
+	if len(diff.DroppedTables) != 1 || diff.DroppedTables[0] != "sessions" {
+		t.Fatalf("expected dropped tables [sessions], got %+v", diff.DroppedTables)
+	}
+
+	if len(diff.ChangedTables) != 1 || diff.ChangedTables[0].Name != "users" {
+		t.Fatalf("expected one changed users table, got %+v", diff.ChangedTables)
+	}
+
+	if len(diff.ChangedTables[0].Columns) != 1 || diff.ChangedTables[0].Columns[0].Name != "bio" || diff.ChangedTables[0].Columns[0].Status != "added" {
+		t.Fatalf("expected bio column add diff, got %+v", diff.ChangedTables[0].Columns)
+	}
+
+	if len(diff.ChangedTables[0].AddedIndexes) != 1 || diff.ChangedTables[0].AddedIndexes[0] != "idx_users_email" {
+		t.Fatalf("expected added indexes [idx_users_email], got %+v", diff.ChangedTables[0].AddedIndexes)
+	}
+}
+
+func startPostgresContainer(t *testing.T, ctx context.Context) (testcontainers.Container, *pgx.Conn, config.Config) {
 	t.Helper()
 
 	req := testcontainers.ContainerRequest{
@@ -222,5 +297,13 @@ func startPostgresContainer(t *testing.T, ctx context.Context) (testcontainers.C
 		t.Fatalf("connect to test postgres: %v", err)
 	}
 
-	return container, conn
+	cfg := config.Config{
+		Host:     host,
+		Port:     port.Int(),
+		User:     "test",
+		Password: "test",
+		Database: "testdb",
+	}
+
+	return container, conn, cfg
 }

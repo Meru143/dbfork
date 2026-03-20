@@ -16,9 +16,11 @@ type SchemaDiff struct {
 
 // TableDiff describes changes to a table.
 type TableDiff struct {
-	Name    string
-	Status  string
-	Columns []ColumnDiff
+	Name           string
+	Status         string
+	Columns        []ColumnDiff
+	AddedIndexes   []string
+	DroppedIndexes []string
 }
 
 // ColumnDiff describes changes to a column.
@@ -226,4 +228,71 @@ func DiffIndexes(sourceIdxs, branchIdxs []string) (added, dropped []string) {
 	}
 
 	return added, dropped
+}
+
+// ComputeSchemaDiff computes a schema diff between the source and branch databases.
+func ComputeSchemaDiff(ctx context.Context, sourceConn, branchConn *pgx.Conn) (*SchemaDiff, error) {
+	sourceTables, err := GetTableNames(ctx, sourceConn, "public")
+	if err != nil {
+		return nil, err
+	}
+
+	branchTables, err := GetTableNames(ctx, branchConn, "public")
+	if err != nil {
+		return nil, err
+	}
+
+	addedTables, droppedTables := DiffTables(sourceTables, branchTables)
+	diff := &SchemaDiff{
+		AddedTables:   addedTables,
+		DroppedTables: droppedTables,
+	}
+
+	branchSet := make(map[string]struct{}, len(branchTables))
+	for _, tableName := range branchTables {
+		branchSet[tableName] = struct{}{}
+	}
+
+	for _, tableName := range sourceTables {
+		if _, ok := branchSet[tableName]; !ok {
+			continue
+		}
+
+		sourceColumns, err := GetColumns(ctx, sourceConn, "public", tableName)
+		if err != nil {
+			return nil, err
+		}
+
+		branchColumns, err := GetColumns(ctx, branchConn, "public", tableName)
+		if err != nil {
+			return nil, err
+		}
+
+		columnDiffs := DiffColumns(sourceColumns, branchColumns)
+
+		sourceIndexes, err := GetIndexes(ctx, sourceConn, tableName)
+		if err != nil {
+			return nil, err
+		}
+
+		branchIndexes, err := GetIndexes(ctx, branchConn, tableName)
+		if err != nil {
+			return nil, err
+		}
+
+		addedIndexes, droppedIndexes := DiffIndexes(sourceIndexes, branchIndexes)
+		if len(columnDiffs) == 0 && len(addedIndexes) == 0 && len(droppedIndexes) == 0 {
+			continue
+		}
+
+		diff.ChangedTables = append(diff.ChangedTables, TableDiff{
+			Name:           tableName,
+			Status:         "changed",
+			Columns:        columnDiffs,
+			AddedIndexes:   addedIndexes,
+			DroppedIndexes: droppedIndexes,
+		})
+	}
+
+	return diff, nil
 }
