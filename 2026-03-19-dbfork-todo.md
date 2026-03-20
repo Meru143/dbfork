@@ -30,7 +30,7 @@
 ### 1.3 Install Dependencies
 - [x] Run `go get github.com/spf13/cobra@v1.9.0`
 - [x] Run `go get github.com/spf13/viper@v1.20.0`
-- [ ] Run `go get github.com/jackc/pgx/v5@v5.7.0`
+- [x] Run `go get github.com/jackc/pgx/v5@v5.7.0`
 - [ ] Run `go get github.com/olekukonko/tablewriter@v0.0.5`
 - [ ] Run `go get github.com/charmbracelet/lipgloss@v1.0.0`
 - [ ] Run `go get github.com/stretchr/testify@v1.10.0`
