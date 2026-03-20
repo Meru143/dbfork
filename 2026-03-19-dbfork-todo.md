@@ -38,7 +38,7 @@
 - [x] Run `go mod tidy`
 
 ### 1.4 Root Cobra Command
-- [ ] Create `internal/cli/root.go`
+- [x] Create `internal/cli/root.go`
 - [ ] Declare `var rootCmd = &cobra.Command{ Use: "dbfork", Short: "Git-style branching for local Postgres databases" }`
 - [ ] Add `Execute()` function that calls `rootCmd.Execute()` and exits on error
 - [ ] Add persistent flags: `--host`, `--port`, `--user`, `--password`, `--source`, `--verbose`
