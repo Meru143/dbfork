@@ -181,14 +181,14 @@
 ## Phase 5: CLI Commands
 
 ### 5.1 `dbfork init`
-- [ ] Create `internal/cli/init.go`
-- [ ] Register `initCmd` with cobra: `Use: "init"`
-- [ ] Create `~/.dbfork/` directory with `os.MkdirAll`
-- [ ] If `~/.dbfork/config.toml` exists, print "Config already exists" and exit 0
-- [ ] Prompt for host (default: `localhost`), port (default: `5432`), user (default: `$USER`), password, database name
-- [ ] Test connection using the entered values: call `Connect()` and `Ping()`
-- [ ] If connection succeeds: write TOML config to `~/.dbfork/config.toml` using `viper.WriteConfigAs()`
-- [ ] Print success message with config file path
+- [x] Create `internal/cli/init.go`
+- [x] Register `initCmd` with cobra: `Use: "init"`
+- [x] Create `~/.dbfork/` directory with `os.MkdirAll`
+- [x] If `~/.dbfork/config.toml` exists, print "Config already exists" and exit 0
+- [x] Prompt for host (default: `localhost`), port (default: `5432`), user (default: `$USER`), password, database name
+- [x] Test connection using the entered values: call `Connect()` and `Ping()`
+- [x] If connection succeeds: write TOML config to `~/.dbfork/config.toml` using `viper.WriteConfigAs()`
+- [x] Print success message with config file path
 
 ### 5.2 `dbfork create`
 - [ ] Create `internal/cli/create.go`
