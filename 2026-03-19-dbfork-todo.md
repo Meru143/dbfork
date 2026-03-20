@@ -66,11 +66,11 @@
 - [x] Implement `FindBranch(s *State, name string) (*Branch, bool)` — return pointer and ok
 
 ### 1.7 Postgres Client
-- [ ] Create `internal/postgres/client.go`
-- [ ] Implement `BuildDSN(cfg config.Config) string` returning `postgres://user:pass@host:port/dbname`
-- [ ] Implement `Connect(ctx context.Context, dsn string) (*pgx.Conn, error)` wrapping `pgx.Connect()`
-- [ ] Implement `ConnectToDatabase(ctx context.Context, cfg config.Config, dbName string) (*pgx.Conn, error)` — builds DSN with given dbName, calls `Connect()`
-- [ ] Implement `Ping(ctx context.Context, conn *pgx.Conn) error` with a simple `SELECT 1` query
+- [x] Create `internal/postgres/client.go`
+- [x] Implement `BuildDSN(cfg config.Config) string` returning `postgres://user:pass@host:port/dbname`
+- [x] Implement `Connect(ctx context.Context, dsn string) (*pgx.Conn, error)` wrapping `pgx.Connect()`
+- [x] Implement `ConnectToDatabase(ctx context.Context, cfg config.Config, dbName string) (*pgx.Conn, error)` — builds DSN with given dbName, calls `Connect()`
+- [x] Implement `Ping(ctx context.Context, conn *pgx.Conn) error` with a simple `SELECT 1` query
 
 ### 1.8 Build and Release
 - [ ] Create `.goreleaser.yml` with builds for: `linux/amd64`, `linux/arm64`, `darwin/amd64`, `darwin/arm64`, `windows/amd64`
