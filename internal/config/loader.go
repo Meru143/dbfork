@@ -32,9 +32,13 @@ func LoadConfig() (Config, error) {
 	}
 
 	v := viper.New()
-	v.SetConfigName("config")
-	v.SetConfigType("toml")
-	v.AddConfigPath(filepath.Join(homeDir, ".dbfork"))
+	if overridePath := os.Getenv("DBFORK_CONFIG"); overridePath != "" {
+		v.SetConfigFile(overridePath)
+	} else {
+		v.SetConfigName("config")
+		v.SetConfigType("toml")
+		v.AddConfigPath(filepath.Join(homeDir, ".dbfork"))
+	}
 	v.SetDefault("default_host", "localhost")
 	v.SetDefault("default_port", 5432)
 	v.SetDefault("default_user", currentUser.Username)

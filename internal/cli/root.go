@@ -46,7 +46,11 @@ func loadRootConfig(cmd *cobra.Command) error {
 
 	viper.SetConfigName("config")
 	viper.SetConfigType("toml")
-	viper.AddConfigPath(filepath.Join(homeDir, ".dbfork"))
+	if overridePath := os.Getenv("DBFORK_CONFIG"); overridePath != "" {
+		viper.SetConfigFile(overridePath)
+	} else {
+		viper.AddConfigPath(filepath.Join(homeDir, ".dbfork"))
+	}
 
 	if err := viper.ReadInConfig(); err != nil {
 		var notFound viper.ConfigFileNotFoundError

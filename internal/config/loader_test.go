@@ -67,6 +67,33 @@ func TestLoadConfigEnvOverridesFileValue(t *testing.T) {
 	}
 }
 
+func TestLoadConfigUsesDBFORKConfigOverride(t *testing.T) {
+	homeDir := t.TempDir()
+	setHomeDir(t, homeDir)
+
+	overridePath := filepath.Join(t.TempDir(), "dbfork.toml")
+	t.Setenv("DBFORK_CONFIG", overridePath)
+
+	configBody := `default_host = "override-file.local"
+default_port = 6543
+default_user = "override-user"
+default_password = "secret"
+default_database = "override_db"
+`
+	if err := os.WriteFile(overridePath, []byte(configBody), 0o600); err != nil {
+		t.Fatalf("write override config: %v", err)
+	}
+
+	got, err := LoadConfig()
+	if err != nil {
+		t.Fatalf("load config: %v", err)
+	}
+
+	if got.Host != "override-file.local" || got.Port != 6543 || got.User != "override-user" || got.Password != "secret" || got.Database != "override_db" {
+		t.Fatalf("unexpected config override: %+v", got)
+	}
+}
+
 func TestLoadConfigAppliesDefaultsWhenNoConfigExists(t *testing.T) {
 	homeDir := t.TempDir()
 	setHomeDir(t, homeDir)
