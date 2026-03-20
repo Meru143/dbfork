@@ -292,32 +292,32 @@
 ## Phase 7: Unit Tests
 
 ### 7.1 State Store Tests
-- [ ] Create `internal/state/store_test.go`
-- [ ] Test `Load()` returns empty state when file not found
-- [ ] Test `Save()` + `Load()` round-trip
-- [ ] Test `AddBranch()` appends correctly
-- [ ] Test `RemoveBranch()` removes by name, leaves others intact
-- [ ] Test `FindBranch()` returns correct branch and true
-- [ ] Test `FindBranch()` returns nil and false for missing name
+- [x] Create `internal/state/store_test.go`
+- [x] Test `Load()` returns empty state when file not found
+- [x] Test `Save()` + `Load()` round-trip
+- [x] Test `AddBranch()` appends correctly
+- [x] Test `RemoveBranch()` removes by name, leaves others intact
+- [x] Test `FindBranch()` returns correct branch and true
+- [x] Test `FindBranch()` returns nil and false for missing name
 
 ### 7.2 Config Tests
-- [ ] Create `internal/config/loader_test.go`
-- [ ] Test `LoadConfig()` with a TOML fixture file returns correct `Config`
-- [ ] Test env var `DBFORK_HOST` overrides config file value
-- [ ] Test defaults applied when no config file present
+- [x] Create `internal/config/loader_test.go`
+- [x] Test `LoadConfig()` with a TOML fixture file returns correct `Config`
+- [x] Test env var `DBFORK_HOST` overrides config file value
+- [x] Test defaults applied when no config file present
 
 ### 7.3 Name Sanitizer Tests
-- [ ] Create `internal/cli/names_test.go`
-- [ ] Test `SanitizeBranchName("feature-add-users")` → `"dbfork_feature_add_users"`
-- [ ] Test `SanitizeBranchName("")` → error
-- [ ] Test `SanitizeBranchName("MY BRANCH!")` → `"dbfork_my_branch"` (stripped special chars)
-- [ ] Test `SanitizeBranchName("a" * 60)` → error (too long)
-- [ ] Test `DisplayName("dbfork_feature_add_users")` → `"feature_add_users"`
+- [x] Create `internal/cli/names_test.go`
+- [x] Test `SanitizeBranchName("feature-add-users")` → `"dbfork_feature_add_users"`
+- [x] Test `SanitizeBranchName("")` → error
+- [x] Test `SanitizeBranchName("MY BRANCH!")` → `"dbfork_my_branch"` (stripped special chars)
+- [x] Test `SanitizeBranchName("a" * 60)` → error (too long)
+- [x] Test `DisplayName("dbfork_feature_add_users")` → `"feature_add_users"`
 
 ### 7.4 DSN Builder Tests
-- [ ] Create `internal/postgres/client_test.go`
-- [ ] Test `BuildDSN()` with all fields → correct URL format `postgres://user:pass@host:5432/db`
-- [ ] Test `BuildDSN()` with empty password → URL omits password `postgres://user@host:5432/db`
+- [x] Create `internal/postgres/client_test.go`
+- [x] Test `BuildDSN()` with all fields → correct URL format `postgres://user:pass@host:5432/db`
+- [x] Test `BuildDSN()` with empty password → URL omits password `postgres://user@host:5432/db`
 
 ---
 
