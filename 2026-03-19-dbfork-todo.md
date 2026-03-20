@@ -246,15 +246,15 @@
 - [x] Print: `✓ Dropped branch 'feature-add-users'`
 
 ### 5.6 `dbfork diff`
-- [ ] Create `internal/cli/diff.go`
-- [ ] Register `diffCmd`: `Use: "diff <name>"`
-- [ ] Mark args as `cobra.ExactArgs(1)`
-- [ ] Add `--format` flag with choices `text`, `json`
-- [ ] Load state, find branch and its source
-- [ ] Connect to both source and branch databases (two separate `pgx.Conn` instances)
-- [ ] Call `ComputeSchemaDiff(ctx, sourceConn, branchConn)`
-- [ ] If `--format json`: marshal `SchemaDiff` to JSON and print
-- [ ] If `--format text` (default): call `output.RenderDiff(diff)` for colored output
+- [x] Create `internal/cli/diff.go`
+- [x] Register `diffCmd`: `Use: "diff <name>"`
+- [x] Mark args as `cobra.ExactArgs(1)`
+- [x] Add `--format` flag with choices `text`, `json`
+- [x] Load state, find branch and its source
+- [x] Connect to both source and branch databases (two separate `pgx.Conn` instances)
+- [x] Call `ComputeSchemaDiff(ctx, sourceConn, branchConn)`
+- [x] If `--format json`: marshal `SchemaDiff` to JSON and print
+- [x] If `--format text` (default): call `output.RenderDiff(diff)` for colored output
 
 ### 5.7 `dbfork use`
 - [ ] Create `internal/cli/use.go`
