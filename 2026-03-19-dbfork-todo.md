@@ -377,20 +377,20 @@
 ## Phase 10: Documentation
 
 ### 10.1 README.md
-- [ ] Add Go version badge, CI badge, license badge
-- [ ] Add "Why dbfork?" section with `CREATE DATABASE TEMPLATE` vs `pg_dump` timing comparison
-- [ ] Add Installation section: `go install`, Homebrew (upcoming), binary download
-- [ ] Add Quick Start (5 commands to get running)
-- [ ] Add Command Reference table
-- [ ] Add Config Reference section
-- [ ] Add "How it works" section explaining `CREATE DATABASE TEMPLATE` mechanism
-- [ ] Add Limitations section noting template connection restriction
+- [x] Add Go version badge, CI badge, license badge
+- [x] Add "Why dbfork?" section with `CREATE DATABASE TEMPLATE` vs `pg_dump` timing comparison
+- [x] Add Installation section: `go install`, Homebrew (upcoming), binary download
+- [x] Add Quick Start (5 commands to get running)
+- [x] Add Command Reference table
+- [x] Add Config Reference section
+- [x] Add "How it works" section explaining `CREATE DATABASE TEMPLATE` mechanism
+- [x] Add Limitations section noting template connection restriction
 
 ### 10.2 Community Files
-- [ ] Create `CONTRIBUTING.md` with dev setup (`docker-compose up` for Postgres)
-- [ ] Create `CODE_OF_CONDUCT.md` (Contributor Covenant 2.1)
-- [ ] Create `SECURITY.md`
-- [ ] Create `.github/ISSUE_TEMPLATE/bug_report.md`
-- [ ] Create `.github/PULL_REQUEST_TEMPLATE.md`
-- [ ] Create `.editorconfig` with `indent_style=tab` (Go convention)
-- [ ] Create `docker-compose.yml` with `postgres:17-alpine` service for local dev
+- [x] Create `CONTRIBUTING.md` with dev setup (`docker-compose up` for Postgres)
+- [x] Create `CODE_OF_CONDUCT.md` (Contributor Covenant 2.1)
+- [x] Create `SECURITY.md`
+- [x] Create `.github/ISSUE_TEMPLATE/bug_report.md`
+- [x] Create `.github/PULL_REQUEST_TEMPLATE.md`
+- [x] Create `.editorconfig` with `indent_style=tab` (Go convention)
+- [x] Create `docker-compose.yml` with `postgres:17-alpine` service for local dev
