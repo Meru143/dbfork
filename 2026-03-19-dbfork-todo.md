@@ -257,13 +257,13 @@
 - [x] If `--format text` (default): call `output.RenderDiff(diff)` for colored output
 
 ### 5.7 `dbfork use`
-- [ ] Create `internal/cli/use.go`
-- [ ] Register `useCmd`: `Use: "use <name>"`
-- [ ] Mark args as `cobra.ExactArgs(1)`
-- [ ] Load state, find branch by display name
-- [ ] Write display name to `.dbfork` in `os.Getwd()`
-- [ ] Print: `✓ Switched to branch 'feature-add-users'`
-- [ ] Print: `  DATABASE_URL=<dsn>`
+- [x] Create `internal/cli/use.go`
+- [x] Register `useCmd`: `Use: "use <name>"`
+- [x] Mark args as `cobra.ExactArgs(1)`
+- [x] Load state, find branch by display name
+- [x] Write display name to `.dbfork` in `os.Getwd()`
+- [x] Print: `✓ Switched to branch 'feature-add-users'`
+- [x] Print: `  DATABASE_URL=<dsn>`
 
 ---
 
