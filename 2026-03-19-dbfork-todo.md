@@ -270,22 +270,22 @@
 ## Phase 6: Output Formatters
 
 ### 6.1 Table Output
-- [ ] Create `internal/output/table.go`
-- [ ] Implement `RenderBranchList(branches []BranchRow)` using `tablewriter.NewWriter(os.Stdout)`
-- [ ] Set `table.SetBorder(false)` and `table.SetColumnSeparator("  ")`
-- [ ] Set header: `["", "BRANCH", "SOURCE", "CREATED", "SIZE (MB)", "STATUS"]`
-- [ ] Set alignment: all LEFT except SIZE (RIGHT)
-- [ ] Call `table.Render()`
+- [x] Create `internal/output/table.go`
+- [x] Implement `RenderBranchList(branches []BranchRow)` using `tablewriter.NewWriter(os.Stdout)`
+- [x] Set `table.SetBorder(false)` and `table.SetColumnSeparator("  ")`
+- [x] Set header: `["", "BRANCH", "SOURCE", "CREATED", "SIZE (MB)", "STATUS"]`
+- [x] Set alignment: all LEFT except SIZE (RIGHT)
+- [x] Call `table.Render()`
 
 ### 6.2 Diff Renderer
-- [ ] Create `internal/output/diff.go`
-- [ ] Import `lipgloss` for color styling
-- [ ] Define styles: `addedStyle = lipgloss.NewStyle().Foreground(lipgloss.Color("10"))` (green)
-- [ ] Define: `droppedStyle` (red, color "9"), `changedStyle` (yellow, color "11")
-- [ ] Implement `RenderDiff(diff *postgres.SchemaDiff)`
-- [ ] Print section "Tables" with added/dropped table names
-- [ ] For each `ChangedTable`: print table name, then each column diff with +/- prefix and color
-- [ ] Print "No schema differences found." when diff is empty
+- [x] Create `internal/output/diff.go`
+- [x] Import `lipgloss` for color styling
+- [x] Define styles: `addedStyle = lipgloss.NewStyle().Foreground(lipgloss.Color("10"))` (green)
+- [x] Define: `droppedStyle` (red, color "9"), `changedStyle` (yellow, color "11")
+- [x] Implement `RenderDiff(diff *postgres.SchemaDiff)`
+- [x] Print section "Tables" with added/dropped table names
+- [x] For each `ChangedTable`: print table name, then each column diff with +/- prefix and color
+- [x] Print "No schema differences found." when diff is empty
 
 ---
 
