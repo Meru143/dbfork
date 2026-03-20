@@ -210,15 +210,15 @@
 - [x] Print: `  Connect: dbfork connect feature-add-users`
 
 ### 5.3 `dbfork list`
-- [ ] Create `internal/cli/list.go`
-- [ ] Register `listCmd`: `Use: "list"`, aliases `["ls"]`
-- [ ] Load state and config
-- [ ] If no branches, print "No branches. Run 'dbfork create <name>' to get started."
-- [ ] Connect to `postgres` maintenance DB
-- [ ] For each branch in state: call `GetDatabaseSizeMB()` and `DatabaseExists()` (mark as "orphaned" if exists in state but not in PG)
-- [ ] Read `.dbfork` file in current dir to identify active branch
-- [ ] Render with `tablewriter`: columns `Active`, `Name`, `Source`, `Created`, `Size (MB)`, `Status`
-- [ ] Mark active branch row with `*` in Active column
+- [x] Create `internal/cli/list.go`
+- [x] Register `listCmd`: `Use: "list"`, aliases `["ls"]`
+- [x] Load state and config
+- [x] If no branches, print "No branches. Run 'dbfork create <name>' to get started."
+- [x] Connect to `postgres` maintenance DB
+- [x] For each branch in state: call `GetDatabaseSizeMB()` and `DatabaseExists()` (mark as "orphaned" if exists in state but not in PG)
+- [x] Read `.dbfork` file in current dir to identify active branch
+- [x] Render with `tablewriter`: columns `Active`, `Name`, `Source`, `Created`, `Size (MB)`, `Status`
+- [x] Mark active branch row with `*` in Active column
 
 ### 5.4 `dbfork connect`
 - [ ] Create `internal/cli/connect.go`
