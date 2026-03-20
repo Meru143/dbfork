@@ -12,7 +12,7 @@
 - [x] Create `LICENSE` (MIT)
 - [x] Create `.gitignore` (binaries, `*.db`, `.env`, `dist/`)
 - [x] Create `CHANGELOG.md` with `## [Unreleased]`
-- [ ] Run `git init && git add -A && git commit -m "chore: initial scaffold"`
+- [x] Run `git init && git add -A && git commit -m "chore: initial scaffold"`
 
 ### 1.2 Directory Structure
 - [ ] Create `cmd/dbfork/` directory
