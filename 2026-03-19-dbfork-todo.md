@@ -54,16 +54,16 @@
 - [x] Return `Config` and any error from `LoadConfig()`
 
 ### 1.6 State Store
-- [ ] Create `internal/state/types.go` with `Branch` and `State` structs
-- [ ] Add `Version int` field to `State` struct, set to `1`
-- [ ] Create `internal/state/store.go`
-- [ ] Implement `statePath() string` returning `filepath.Join(os.UserHomeDir(), ".dbfork", "state.json")`
-- [ ] Implement `Load() (*State, error)` — read and `json.Unmarshal` state file, return empty `State{}` if file not found
-- [ ] Implement `Save(s *State) error` — `json.MarshalIndent` with 2-space indent, write with `os.WriteFile`
-- [ ] Create `~/.dbfork/` dir with `os.MkdirAll` if it doesn't exist in `Save()`
-- [ ] Implement `AddBranch(s *State, b Branch)` — append to `s.Branches`
-- [ ] Implement `RemoveBranch(s *State, name string)` — filter out by name
-- [ ] Implement `FindBranch(s *State, name string) (*Branch, bool)` — return pointer and ok
+- [x] Create `internal/state/types.go` with `Branch` and `State` structs
+- [x] Add `Version int` field to `State` struct, set to `1`
+- [x] Create `internal/state/store.go`
+- [x] Implement `statePath() string` returning `filepath.Join(os.UserHomeDir(), ".dbfork", "state.json")`
+- [x] Implement `Load() (*State, error)` — read and `json.Unmarshal` state file, return empty `State{}` if file not found
+- [x] Implement `Save(s *State) error` — `json.MarshalIndent` with 2-space indent, write with `os.WriteFile`
+- [x] Create `~/.dbfork/` dir with `os.MkdirAll` if it doesn't exist in `Save()`
+- [x] Implement `AddBranch(s *State, b Branch)` — append to `s.Branches`
+- [x] Implement `RemoveBranch(s *State, name string)` — filter out by name
+- [x] Implement `FindBranch(s *State, name string) (*Branch, bool)` — return pointer and ok
 
 ### 1.7 Postgres Client
 - [ ] Create `internal/postgres/client.go`
