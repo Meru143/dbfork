@@ -175,3 +175,55 @@ func DiffColumns(sourceCols, branchCols []ColumnInfo) []ColumnDiff {
 
 	return diffs
 }
+
+// GetIndexes returns sorted index names for a table in the public schema.
+func GetIndexes(ctx context.Context, conn *pgx.Conn, tableName string) ([]string, error) {
+	rows, err := conn.Query(
+		ctx,
+		"SELECT indexname FROM pg_indexes WHERE schemaname='public' AND tablename=$1 ORDER BY indexname",
+		tableName,
+	)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	var indexes []string
+	for rows.Next() {
+		var indexName string
+		if err := rows.Scan(&indexName); err != nil {
+			return nil, err
+		}
+		indexes = append(indexes, indexName)
+	}
+
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+
+	return indexes, nil
+}
+
+// DiffIndexes computes added and dropped index names between source and branch.
+func DiffIndexes(sourceIdxs, branchIdxs []string) (added, dropped []string) {
+	sourceSet := make(map[string]struct{}, len(sourceIdxs))
+	for _, indexName := range sourceIdxs {
+		sourceSet[indexName] = struct{}{}
+	}
+
+	branchSet := make(map[string]struct{}, len(branchIdxs))
+	for _, indexName := range branchIdxs {
+		branchSet[indexName] = struct{}{}
+		if _, ok := sourceSet[indexName]; !ok {
+			added = append(added, indexName)
+		}
+	}
+
+	for _, indexName := range sourceIdxs {
+		if _, ok := branchSet[indexName]; !ok {
+			dropped = append(dropped, indexName)
+		}
+	}
+
+	return added, dropped
+}

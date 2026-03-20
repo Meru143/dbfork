@@ -129,6 +129,56 @@ func TestDiffColumnsDetectsAddedDroppedTypeAndNullabilityChanges(t *testing.T) {
 	}
 }
 
+func TestGetIndexesReturnsSortedIndexNames(t *testing.T) {
+	ctx := context.Background()
+	container, conn := startPostgresContainer(t, ctx)
+	defer func() {
+		conn.Close(ctx)
+		_ = container.Terminate(ctx)
+	}()
+
+	if _, err := conn.Exec(ctx, "CREATE TABLE users (id BIGSERIAL PRIMARY KEY, email TEXT NOT NULL, created_at TIMESTAMPTZ NOT NULL)"); err != nil {
+		t.Fatalf("create users table: %v", err)
+	}
+	if _, err := conn.Exec(ctx, "CREATE INDEX idx_users_created_at ON users (created_at)"); err != nil {
+		t.Fatalf("create created_at index: %v", err)
+	}
+	if _, err := conn.Exec(ctx, "CREATE UNIQUE INDEX idx_users_email ON users (email)"); err != nil {
+		t.Fatalf("create email index: %v", err)
+	}
+
+	indexes, err := GetIndexes(ctx, conn, "users")
+	if err != nil {
+		t.Fatalf("get indexes: %v", err)
+	}
+
+	expected := []string{"idx_users_created_at", "idx_users_email", "users_pkey"}
+	if len(indexes) != len(expected) {
+		t.Fatalf("expected indexes %v, got %v", expected, indexes)
+	}
+
+	for i := range expected {
+		if indexes[i] != expected[i] {
+			t.Fatalf("expected indexes %v, got %v", expected, indexes)
+		}
+	}
+}
+
+func TestDiffIndexesReturnsAddedAndDroppedIndexes(t *testing.T) {
+	added, dropped := DiffIndexes(
+		[]string{"idx_users_email", "users_pkey"},
+		[]string{"idx_users_created_at", "users_pkey"},
+	)
+
+	if len(added) != 1 || added[0] != "idx_users_created_at" {
+		t.Fatalf("expected added indexes [idx_users_created_at], got %v", added)
+	}
+
+	if len(dropped) != 1 || dropped[0] != "idx_users_email" {
+		t.Fatalf("expected dropped indexes [idx_users_email], got %v", dropped)
+	}
+}
+
 func startPostgresContainer(t *testing.T, ctx context.Context) (testcontainers.Container, *pgx.Conn) {
 	t.Helper()
 

@@ -148,9 +148,9 @@
 
 ### 3.3 Index Diff
 - [ ] In `internal/postgres/diff.go`
-- [ ] Implement `GetIndexes(ctx context.Context, conn *pgx.Conn, tableName string) ([]string, error)`
-- [ ] Execute: `SELECT indexname FROM pg_indexes WHERE schemaname='public' AND tablename=$1 ORDER BY indexname`
-- [ ] Implement `DiffIndexes(sourceIdxs, branchIdxs []string) (added, dropped []string)`
+- [x] Implement `GetIndexes(ctx context.Context, conn *pgx.Conn, tableName string) ([]string, error)`
+- [x] Execute: `SELECT indexname FROM pg_indexes WHERE schemaname='public' AND tablename=$1 ORDER BY indexname`
+- [x] Implement `DiffIndexes(sourceIdxs, branchIdxs []string) (added, dropped []string)`
 
 ### 3.4 Full Diff Orchestrator
 - [ ] In `internal/postgres/diff.go`
