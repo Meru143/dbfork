@@ -42,7 +42,7 @@
 - [x] Declare `var rootCmd = &cobra.Command{ Use: "dbfork", Short: "Git-style branching for local Postgres databases" }`
 - [x] Add `Execute()` function that calls `rootCmd.Execute()` and exits on error
 - [x] Add persistent flags: `--host`, `--port`, `--user`, `--password`, `--source`, `--verbose`
-- [ ] Add `PersistentPreRun` that loads config via viper and overrides with flags
+- [x] Add `PersistentPreRun` that loads config via viper and overrides with flags
 
 ### 1.5 Config System
 - [ ] Create `internal/config/loader.go`
