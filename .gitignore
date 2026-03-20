@@ -1,0 +1,6 @@
+bin/
+dbfork
+dbfork.exe
+*.db
+.env
+dist/
