@@ -54,6 +54,46 @@ func TestGetTableNamesReturnsSortedBaseTables(t *testing.T) {
 	}
 }
 
+func TestGetColumnsReturnsColumnMetadataInOrdinalOrder(t *testing.T) {
+	ctx := context.Background()
+	container, conn := startPostgresContainer(t, ctx)
+	defer func() {
+		conn.Close(ctx)
+		_ = container.Terminate(ctx)
+	}()
+
+	if _, err := conn.Exec(ctx, `
+		CREATE TABLE widgets (
+			id BIGSERIAL PRIMARY KEY,
+			name TEXT NOT NULL,
+			description TEXT DEFAULT ''::text
+		)
+	`); err != nil {
+		t.Fatalf("create widgets table: %v", err)
+	}
+
+	columns, err := GetColumns(ctx, conn, "public", "widgets")
+	if err != nil {
+		t.Fatalf("get columns: %v", err)
+	}
+
+	if len(columns) != 3 {
+		t.Fatalf("expected 3 columns, got %d", len(columns))
+	}
+
+	if columns[0].Name != "id" || columns[0].DataType != "bigint" || columns[0].IsNullable != "NO" {
+		t.Fatalf("unexpected first column: %+v", columns[0])
+	}
+
+	if columns[1].Name != "name" || columns[1].DataType != "text" || columns[1].IsNullable != "NO" {
+		t.Fatalf("unexpected second column: %+v", columns[1])
+	}
+
+	if columns[2].Name != "description" || columns[2].DataType != "text" || columns[2].ColumnDefault == "" {
+		t.Fatalf("unexpected third column: %+v", columns[2])
+	}
+}
+
 func startPostgresContainer(t *testing.T, ctx context.Context) (testcontainers.Container, *pgx.Conn) {
 	t.Helper()
 

@@ -140,9 +140,9 @@
 
 ### 3.2 Column Diff
 - [ ] In `internal/postgres/diff.go`
-- [ ] Define `ColumnInfo` struct: `{ Name string; DataType string; IsNullable string; ColumnDefault string }`
-- [ ] Implement `GetColumns(ctx context.Context, conn *pgx.Conn, schema, tableName string) ([]ColumnInfo, error)`
-- [ ] Execute: `SELECT column_name, data_type, is_nullable, column_default FROM information_schema.columns WHERE table_schema=$1 AND table_name=$2 ORDER BY ordinal_position`
+- [x] Define `ColumnInfo` struct: `{ Name string; DataType string; IsNullable string; ColumnDefault string }`
+- [x] Implement `GetColumns(ctx context.Context, conn *pgx.Conn, schema, tableName string) ([]ColumnInfo, error)`
+- [x] Execute: `SELECT column_name, data_type, is_nullable, column_default FROM information_schema.columns WHERE table_schema=$1 AND table_name=$2 ORDER BY ordinal_position`
 - [ ] Implement `DiffColumns(sourceCols, branchCols []ColumnInfo) []ColumnDiff`
 - [ ] For each column: detect added, dropped, type changed, nullability changed
 

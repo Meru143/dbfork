@@ -29,6 +29,14 @@ type ColumnDiff struct {
 	NewType string
 }
 
+// ColumnInfo describes a database column.
+type ColumnInfo struct {
+	Name          string
+	DataType      string
+	IsNullable    string
+	ColumnDefault string
+}
+
 // DiffTables computes added and dropped tables between source and branch.
 func DiffTables(source, branch []string) (added, dropped []string) {
 	sourceSet := make(map[string]struct{}, len(source))
@@ -79,4 +87,39 @@ func GetTableNames(ctx context.Context, conn *pgx.Conn, schema string) ([]string
 	}
 
 	return tables, nil
+}
+
+// GetColumns returns ordered column metadata for a table.
+func GetColumns(ctx context.Context, conn *pgx.Conn, schema, tableName string) ([]ColumnInfo, error) {
+	rows, err := conn.Query(
+		ctx,
+		"SELECT column_name, data_type, is_nullable, column_default FROM information_schema.columns WHERE table_schema=$1 AND table_name=$2 ORDER BY ordinal_position",
+		schema,
+		tableName,
+	)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	var columns []ColumnInfo
+	for rows.Next() {
+		var (
+			column        ColumnInfo
+			columnDefault *string
+		)
+		if err := rows.Scan(&column.Name, &column.DataType, &column.IsNullable, &columnDefault); err != nil {
+			return nil, err
+		}
+		if columnDefault != nil {
+			column.ColumnDefault = *columnDefault
+		}
+		columns = append(columns, column)
+	}
+
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+
+	return columns, nil
 }
