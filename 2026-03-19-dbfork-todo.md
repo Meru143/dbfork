@@ -24,7 +24,7 @@
 - [x] Create `internal/output/` directory
 - [x] Create `test/integration/` directory
 - [x] Create `test/fixtures/` directory
-- [ ] Create `test/fixtures/schema.sql` with tables, indexes, and constraints for tests
+- [x] Create `test/fixtures/schema.sql` with tables, indexes, and constraints for tests
 - [x] Create `.github/workflows/` directory
 
 ### 1.3 Install Dependencies
