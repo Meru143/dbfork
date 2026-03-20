@@ -35,7 +35,7 @@
 - [x] Run `go get github.com/charmbracelet/lipgloss@v1.0.0`
 - [x] Run `go get github.com/stretchr/testify@v1.10.0`
 - [x] Run `go get github.com/testcontainers/testcontainers-go@v0.35.0`
-- [ ] Run `go mod tidy`
+- [x] Run `go mod tidy`
 
 ### 1.4 Root Cobra Command
 - [ ] Create `internal/cli/root.go`
