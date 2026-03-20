@@ -48,7 +48,7 @@
 - [x] Create `internal/config/loader.go`
 - [x] Define `Config` struct with fields: `Host`, `Port`, `User`, `Password`, `Database`
 - [x] In `LoadConfig()`: set viper config name to `config`, type to `toml`, path to `~/.dbfork/`
-- [ ] Bind env vars: `viper.BindEnv("host", "DBFORK_HOST")`, repeat for all fields
+- [x] Bind env vars: `viper.BindEnv("host", "DBFORK_HOST")`, repeat for all fields
 - [ ] Set defaults: `viper.SetDefault("host", "localhost")`, `viper.SetDefault("port", 5432)`
 - [ ] Unmarshal into `Config` struct using `viper.Unmarshal(&cfg)`
 - [ ] Return `Config` and any error from `LoadConfig()`
