@@ -65,8 +65,13 @@ func TestMain(m *testing.M) {
 }
 
 func startContainer(ctx context.Context) (testcontainers.Container, config.Config, *pgx.Conn, error) {
+	version := os.Getenv("POSTGRES_VERSION")
+	if version == "" {
+		version = "17"
+	}
+
 	req := testcontainers.ContainerRequest{
-		Image:        "postgres:17-alpine",
+		Image:        fmt.Sprintf("postgres:%s-alpine", version),
 		ExposedPorts: []string{"5432/tcp"},
 		Env: map[string]string{
 			"POSTGRES_PASSWORD": "test",

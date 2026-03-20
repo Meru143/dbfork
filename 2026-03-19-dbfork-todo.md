@@ -356,21 +356,21 @@
 ## Phase 9: CI/CD Pipeline
 
 ### 9.1 GitHub Actions CI
-- [ ] Create `.github/workflows/ci.yml` with `on: [push, pull_request]`
-- [ ] Job `lint`: run `golangci-lint run ./...`
-- [ ] Job `test`: run `go test ./internal/...`
-- [ ] Job `integration`: run `go test ./test/integration/... -tags integration` (requires Docker)
-- [ ] Matrix for integration: `postgres_version: [14, 15, 16, 17]` — pass as env var to testcontainers
-- [ ] Job `build`: run `go build ./cmd/dbfork/`
+- [x] Create `.github/workflows/ci.yml` with `on: [push, pull_request]`
+- [x] Job `lint`: run `golangci-lint run ./...`
+- [x] Job `test`: run `go test ./internal/...`
+- [x] Job `integration`: run `go test ./test/integration/... -tags integration` (requires Docker)
+- [x] Matrix for integration: `postgres_version: [14, 15, 16, 17]` — pass as env var to testcontainers
+- [x] Job `build`: run `go build ./cmd/dbfork/`
 
 ### 9.2 Release Workflow
-- [ ] Create `.github/workflows/release.yml` triggered on tag `v*`
-- [ ] Use `goreleaser/goreleaser-action@v6`
-- [ ] Pass `GITHUB_TOKEN` secret
+- [x] Create `.github/workflows/release.yml` triggered on tag `v*`
+- [x] Use `goreleaser/goreleaser-action@v6`
+- [x] Pass `GITHUB_TOKEN` secret
 
 ### 9.3 Code Quality
-- [ ] Create `.golangci.yml` enabling: `errcheck`, `govet`, `staticcheck`, `unused`, `gosec`
-- [ ] Add `govulncheck` step to CI
+- [x] Create `.golangci.yml` enabling: `errcheck`, `govet`, `staticcheck`, `unused`, `gosec`
+- [x] Add `govulncheck` step to CI
 
 ---
 

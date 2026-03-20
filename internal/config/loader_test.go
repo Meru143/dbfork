@@ -23,7 +23,7 @@ default_user = "alice"
 default_password = "secret"
 default_database = "myapp_development"
 `
-	if err := os.WriteFile(configPath, []byte(configBody), 0o644); err != nil {
+	if err := os.WriteFile(configPath, []byte(configBody), 0o600); err != nil {
 		t.Fatalf("write config: %v", err)
 	}
 
@@ -53,7 +53,7 @@ func TestLoadConfigEnvOverridesFileValue(t *testing.T) {
 	if err := os.MkdirAll(configDir, 0o755); err != nil {
 		t.Fatalf("mkdir config dir: %v", err)
 	}
-	if err := os.WriteFile(filepath.Join(configDir, "config.toml"), []byte(`default_host = "file.local"`), 0o644); err != nil {
+	if err := os.WriteFile(filepath.Join(configDir, "config.toml"), []byte(`default_host = "file.local"`), 0o600); err != nil {
 		t.Fatalf("write config: %v", err)
 	}
 

@@ -60,7 +60,7 @@ func Save(s *State) error {
 		return err
 	}
 
-	return os.WriteFile(statePath(), data, 0o644)
+	return os.WriteFile(statePath(), data, 0o600)
 }
 
 // AddBranch appends a branch to the state.
