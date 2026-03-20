@@ -1,7 +1,14 @@
 package postgres
 
 import (
+	"context"
 	"testing"
+
+	"github.com/jackc/pgx/v5"
+	"github.com/testcontainers/testcontainers-go"
+	"github.com/testcontainers/testcontainers-go/wait"
+
+	"github.com/owner/dbfork/internal/config"
 )
 
 func TestDiffTablesReturnsAddedAndDroppedTables(t *testing.T) {
@@ -17,4 +24,78 @@ func TestDiffTablesReturnsAddedAndDroppedTables(t *testing.T) {
 	if len(dropped) != 1 || dropped[0] != "accounts" {
 		t.Fatalf("expected dropped tables [accounts], got %v", dropped)
 	}
+}
+
+func TestGetTableNamesReturnsSortedBaseTables(t *testing.T) {
+	ctx := context.Background()
+	container, conn := startPostgresContainer(t, ctx)
+	defer func() {
+		conn.Close(ctx)
+		_ = container.Terminate(ctx)
+	}()
+
+	if _, err := conn.Exec(ctx, "CREATE TABLE zebra (id BIGINT PRIMARY KEY)"); err != nil {
+		t.Fatalf("create zebra table: %v", err)
+	}
+	if _, err := conn.Exec(ctx, "CREATE TABLE alpha (id BIGINT PRIMARY KEY)"); err != nil {
+		t.Fatalf("create alpha table: %v", err)
+	}
+	if _, err := conn.Exec(ctx, "CREATE VIEW not_a_table AS SELECT id FROM alpha"); err != nil {
+		t.Fatalf("create view: %v", err)
+	}
+
+	tables, err := GetTableNames(ctx, conn, "public")
+	if err != nil {
+		t.Fatalf("get table names: %v", err)
+	}
+
+	if len(tables) != 2 || tables[0] != "alpha" || tables[1] != "zebra" {
+		t.Fatalf("expected tables [alpha zebra], got %v", tables)
+	}
+}
+
+func startPostgresContainer(t *testing.T, ctx context.Context) (testcontainers.Container, *pgx.Conn) {
+	t.Helper()
+
+	req := testcontainers.ContainerRequest{
+		Image:        "postgres:17-alpine",
+		ExposedPorts: []string{"5432/tcp"},
+		Env: map[string]string{
+			"POSTGRES_DB":       "testdb",
+			"POSTGRES_PASSWORD": "test",
+			"POSTGRES_USER":     "test",
+		},
+		WaitingFor: wait.ForLog("database system is ready to accept connections").WithOccurrence(2),
+	}
+
+	container, err := testcontainers.GenericContainer(ctx, testcontainers.GenericContainerRequest{
+		ContainerRequest: req,
+		Started:          true,
+	})
+	if err != nil {
+		t.Fatalf("start postgres container: %v", err)
+	}
+
+	host, err := container.Host(ctx)
+	if err != nil {
+		t.Fatalf("get container host: %v", err)
+	}
+
+	port, err := container.MappedPort(ctx, "5432/tcp")
+	if err != nil {
+		t.Fatalf("get mapped port: %v", err)
+	}
+
+	conn, err := ConnectToDatabase(ctx, config.Config{
+		Host:     host,
+		Port:     port.Int(),
+		User:     "test",
+		Password: "test",
+		Database: "testdb",
+	}, "testdb")
+	if err != nil {
+		t.Fatalf("connect to test postgres: %v", err)
+	}
+
+	return container, conn
 }

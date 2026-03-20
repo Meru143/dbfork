@@ -132,8 +132,8 @@
 ### 3.1 Table Diff
 - [x] Create `internal/postgres/diff.go`
 - [x] Define `SchemaDiff` struct: `{ AddedTables []string; DroppedTables []string; ChangedTables []TableDiff }`
-- [ ] Implement `GetTableNames(ctx context.Context, conn *pgx.Conn, schema string) ([]string, error)`
-- [ ] Execute: `SELECT table_name FROM information_schema.tables WHERE table_schema = $1 AND table_type = 'BASE TABLE' ORDER BY table_name`
+- [x] Implement `GetTableNames(ctx context.Context, conn *pgx.Conn, schema string) ([]string, error)`
+- [x] Execute: `SELECT table_name FROM information_schema.tables WHERE table_schema = $1 AND table_type = 'BASE TABLE' ORDER BY table_name`
 - [x] Implement `DiffTables(source, branch []string) (added, dropped []string)`
 - [x] Compute added tables: in branch but not in source
 - [x] Compute dropped tables: in source but not in branch
