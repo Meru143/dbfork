@@ -221,16 +221,16 @@
 - [x] Mark active branch row with `*` in Active column
 
 ### 5.4 `dbfork connect`
-- [ ] Create `internal/cli/connect.go`
-- [ ] Register `connectCmd`: `Use: "connect <name>"`
-- [ ] Mark args as `cobra.ExactArgs(1)`
-- [ ] Add `--format` flag with choices `url`, `env`, `psql`
-- [ ] Add `--psql` bool flag shortcut
-- [ ] Load state, find branch by display name — error if not found
-- [ ] Build DSN from branch fields
-- [ ] If `--format url`: print DSN URL to stdout
-- [ ] If `--format env`: print `export DATABASE_URL=<dsn>`
-- [ ] If `--psql` or `--format psql`: call `exec.Command("psql", "-d", dsn).Run()` and pass stdin/stdout
+- [x] Create `internal/cli/connect.go`
+- [x] Register `connectCmd`: `Use: "connect <name>"`
+- [x] Mark args as `cobra.ExactArgs(1)`
+- [x] Add `--format` flag with choices `url`, `env`, `psql`
+- [x] Add `--psql` bool flag shortcut
+- [x] Load state, find branch by display name — error if not found
+- [x] Build DSN from branch fields
+- [x] If `--format url`: print DSN URL to stdout
+- [x] If `--format env`: print `export DATABASE_URL=<dsn>`
+- [x] If `--psql` or `--format psql`: call `exec.Command("psql", "-d", dsn).Run()` and pass stdin/stdout
 
 ### 5.5 `dbfork drop`
 - [ ] Create `internal/cli/drop.go`
