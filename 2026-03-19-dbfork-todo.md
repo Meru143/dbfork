@@ -33,7 +33,7 @@
 - [x] Run `go get github.com/jackc/pgx/v5@v5.7.0`
 - [x] Run `go get github.com/olekukonko/tablewriter@v0.0.5`
 - [x] Run `go get github.com/charmbracelet/lipgloss@v1.0.0`
-- [ ] Run `go get github.com/stretchr/testify@v1.10.0`
+- [x] Run `go get github.com/stretchr/testify@v1.10.0`
 - [ ] Run `go get github.com/testcontainers/testcontainers-go@v0.35.0`
 - [ ] Run `go mod tidy`
 
