@@ -12,11 +12,23 @@ Fast local PostgreSQL database branching for migrations, schema testing, and iso
 - Give each feature or migration its own disposable database branch
 - Diff branch schema against the source database before you merge changes
 
+![dbfork demo](./media/dbfork-demo.gif)
+
 ## Why dbfork?
 
 - Fast local branching: `CREATE DATABASE ... TEMPLATE` is a server-side copy, so PostgreSQL duplicates the database on disk without moving rows through the client.
 - Faster than `pg_dump | pg_restore`: for a 1 GB development database, `pg_dump` plus restore usually takes 2 to 5 minutes. Template cloning typically finishes in 1 to 3 seconds on the same machine.
 - No extra infrastructure: no cloud account, no custom storage layer, and no fleet of extra Docker containers.
+
+## Compared to Other Local Workflows
+
+| Workflow | Clone speed | Setup | Isolation | Good for |
+|---|---|---|---|---|
+| `dbfork` + PostgreSQL templates | Seconds | One local Postgres instance | Per-feature disposable databases | Daily app development, migration testing, schema diff |
+| `pg_dump | pg_restore` | Minutes on medium databases | Manual dump/restore orchestration | Good, but slow to recreate often | Backup-style workflows, one-off copies |
+| Separate Docker container per branch | Medium to slow | More container setup and resource overhead | Strong, but heavier | Full environment isolation when DB-only branching is not enough |
+
+`dbfork` is best when you want Git-style branching semantics for a local PostgreSQL database without paying the time cost of repeated dumps and restores.
 
 ## Installation
 
@@ -102,3 +114,4 @@ Environment variables override file values:
 ## Development
 
 See [CONTRIBUTING.md](./CONTRIBUTING.md) for local setup, test commands, and release workflow details.
+Regenerate the README demo GIF from WSL with `wsl bash ./scripts/generate-demo.sh`.
