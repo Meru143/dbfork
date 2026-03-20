@@ -51,7 +51,7 @@
 - [x] Bind env vars: `viper.BindEnv("host", "DBFORK_HOST")`, repeat for all fields
 - [x] Set defaults: `viper.SetDefault("host", "localhost")`, `viper.SetDefault("port", 5432)`
 - [x] Unmarshal into `Config` struct using `viper.Unmarshal(&cfg)`
-- [ ] Return `Config` and any error from `LoadConfig()`
+- [x] Return `Config` and any error from `LoadConfig()`
 
 ### 1.6 State Store
 - [ ] Create `internal/state/types.go` with `Branch` and `State` structs
