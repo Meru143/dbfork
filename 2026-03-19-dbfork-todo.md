@@ -85,45 +85,45 @@
 ## Phase 2: Postgres Operations
 
 ### 2.1 Branch Create (Database Template)
-- [ ] Create `internal/postgres/branch.go`
-- [ ] Implement `CreateBranch(ctx context.Context, conn *pgx.Conn, sourceName, branchName string) error`
-- [ ] Execute: `conn.Exec(ctx, fmt.Sprintf("CREATE DATABASE %s TEMPLATE %s", pgx.Identifier{branchName}.Sanitize(), pgx.Identifier{sourceName}.Sanitize()))`
-- [ ] Set statement timeout of 60s using `SET LOCAL statement_timeout = '60s'` before DDL
-- [ ] Wrap error: detect `pgerror code "42P04"` (duplicate database) and return named error `ErrBranchExists`
-- [ ] Detect `pgerror code "55006"` (object in use) and return named error `ErrSourceBusy`
+- [x] Create `internal/postgres/branch.go`
+- [x] Implement `CreateBranch(ctx context.Context, conn *pgx.Conn, sourceName, branchName string) error`
+- [x] Execute: `conn.Exec(ctx, fmt.Sprintf("CREATE DATABASE %s TEMPLATE %s", pgx.Identifier{branchName}.Sanitize(), pgx.Identifier{sourceName}.Sanitize()))`
+- [x] Set statement timeout of 60s using `SET LOCAL statement_timeout = '60s'` before DDL
+- [x] Wrap error: detect `pgerror code "42P04"` (duplicate database) and return named error `ErrBranchExists`
+- [x] Detect `pgerror code "55006"` (object in use) and return named error `ErrSourceBusy`
 
 ### 2.2 Terminate Connections
-- [ ] Create `internal/postgres/connections.go`
-- [ ] Implement `TerminateIdleConnections(ctx context.Context, conn *pgx.Conn, dbName string) (int, error)`
-- [ ] Execute: `SELECT COUNT(pg_terminate_backend(pid)) FROM pg_stat_activity WHERE datname = $1 AND pid <> pg_backend_pid() AND state = 'idle'`
-- [ ] Return count of terminated connections
-- [ ] Implement `CountActiveConnections(ctx context.Context, conn *pgx.Conn, dbName string) (int, error)`
-- [ ] Execute: `SELECT COUNT(*) FROM pg_stat_activity WHERE datname = $1 AND pid <> pg_backend_pid()`
+- [x] Create `internal/postgres/connections.go`
+- [x] Implement `TerminateIdleConnections(ctx context.Context, conn *pgx.Conn, dbName string) (int, error)`
+- [x] Execute: `SELECT COUNT(pg_terminate_backend(pid)) FROM pg_stat_activity WHERE datname = $1 AND pid <> pg_backend_pid() AND state = 'idle'`
+- [x] Return count of terminated connections
+- [x] Implement `CountActiveConnections(ctx context.Context, conn *pgx.Conn, dbName string) (int, error)`
+- [x] Execute: `SELECT COUNT(*) FROM pg_stat_activity WHERE datname = $1 AND pid <> pg_backend_pid()`
 
 ### 2.3 Drop Database
-- [ ] In `internal/postgres/branch.go`
-- [ ] Implement `DropBranch(ctx context.Context, conn *pgx.Conn, branchName string) error`
-- [ ] First call `TerminateIdleConnections()` for the branch database
-- [ ] Execute: `conn.Exec(ctx, fmt.Sprintf("DROP DATABASE IF EXISTS %s", pgx.Identifier{branchName}.Sanitize()))`
+- [x] In `internal/postgres/branch.go`
+- [x] Implement `DropBranch(ctx context.Context, conn *pgx.Conn, branchName string) error`
+- [x] First call `TerminateIdleConnections()` for the branch database
+- [x] Execute: `conn.Exec(ctx, fmt.Sprintf("DROP DATABASE IF EXISTS %s", pgx.Identifier{branchName}.Sanitize()))`
 
 ### 2.4 Database Size
-- [ ] Create `internal/postgres/size.go`
-- [ ] Implement `GetDatabaseSizeMB(ctx context.Context, conn *pgx.Conn, dbName string) (float64, error)`
-- [ ] Execute: `SELECT pg_database_size($1) / 1024.0 / 1024.0`
-- [ ] Scan result into `float64`
-- [ ] Return `0.0` if database not found (catch `pgconn.PgError` code `3D000`)
+- [x] Create `internal/postgres/size.go`
+- [x] Implement `GetDatabaseSizeMB(ctx context.Context, conn *pgx.Conn, dbName string) (float64, error)`
+- [x] Execute: `SELECT pg_database_size($1) / 1024.0 / 1024.0`
+- [x] Scan result into `float64`
+- [x] Return `0.0` if database not found (catch `pgconn.PgError` code `3D000`)
 
 ### 2.5 Check Database Exists
-- [ ] In `internal/postgres/branch.go`
-- [ ] Implement `DatabaseExists(ctx context.Context, conn *pgx.Conn, dbName string) (bool, error)`
-- [ ] Execute: `SELECT EXISTS(SELECT 1 FROM pg_database WHERE datname = $1)`
-- [ ] Scan into `bool` result
+- [x] In `internal/postgres/branch.go`
+- [x] Implement `DatabaseExists(ctx context.Context, conn *pgx.Conn, dbName string) (bool, error)`
+- [x] Execute: `SELECT EXISTS(SELECT 1 FROM pg_database WHERE datname = $1)`
+- [x] Scan into `bool` result
 
 ### 2.6 Check CREATEDB Privilege
-- [ ] In `internal/postgres/client.go`
-- [ ] Implement `HasCreateDBPrivilege(ctx context.Context, conn *pgx.Conn) (bool, error)`
-- [ ] Execute: `SELECT rolcreatedb FROM pg_roles WHERE rolname = current_user`
-- [ ] Scan into `bool`
+- [x] In `internal/postgres/client.go`
+- [x] Implement `HasCreateDBPrivilege(ctx context.Context, conn *pgx.Conn) (bool, error)`
+- [x] Execute: `SELECT rolcreatedb FROM pg_roles WHERE rolname = current_user`
+- [x] Scan into `bool`
 
 ---
 
