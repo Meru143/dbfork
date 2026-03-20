@@ -1,4 +1,4 @@
-module github.com/owner/dbfork
+module github.com/Meru143/dbfork
 
 go 1.25.8
 

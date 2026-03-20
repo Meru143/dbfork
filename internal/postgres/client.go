@@ -8,7 +8,7 @@ import (
 
 	"github.com/jackc/pgx/v5"
 
-	"github.com/owner/dbfork/internal/config"
+	"github.com/Meru143/dbfork/internal/config"
 )
 
 // BuildDSN creates a PostgreSQL connection string from config values.

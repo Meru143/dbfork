@@ -7,7 +7,7 @@ import (
 	"errors"
 	"testing"
 
-	"github.com/owner/dbfork/internal/postgres"
+	"github.com/Meru143/dbfork/internal/postgres"
 )
 
 func TestCreateBranch(t *testing.T) {

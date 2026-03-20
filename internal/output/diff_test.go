@@ -7,7 +7,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/owner/dbfork/internal/postgres"
+	"github.com/Meru143/dbfork/internal/postgres"
 )
 
 func TestRenderDiffToPrintsEmptyMessage(t *testing.T) {

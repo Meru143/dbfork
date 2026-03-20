@@ -8,9 +8,9 @@ import (
 
 	"github.com/jackc/pgx/v5"
 
-	"github.com/owner/dbfork/internal/config"
-	"github.com/owner/dbfork/internal/postgres"
-	"github.com/owner/dbfork/internal/state"
+	"github.com/Meru143/dbfork/internal/config"
+	"github.com/Meru143/dbfork/internal/postgres"
+	"github.com/Meru143/dbfork/internal/state"
 )
 
 func TestRunDiffPrintsJSON(t *testing.T) {

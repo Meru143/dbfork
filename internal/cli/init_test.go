@@ -8,7 +8,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/owner/dbfork/internal/config"
+	"github.com/Meru143/dbfork/internal/config"
 )
 
 func TestRunInitWritesConfigAfterSuccessfulConnection(t *testing.T) {

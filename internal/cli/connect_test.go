@@ -6,8 +6,8 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/owner/dbfork/internal/config"
-	"github.com/owner/dbfork/internal/state"
+	"github.com/Meru143/dbfork/internal/config"
+	"github.com/Meru143/dbfork/internal/state"
 )
 
 func TestRunConnectPrintsURLFormat(t *testing.T) {

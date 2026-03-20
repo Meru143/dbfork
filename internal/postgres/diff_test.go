@@ -10,7 +10,7 @@ import (
 	"github.com/testcontainers/testcontainers-go"
 	"github.com/testcontainers/testcontainers-go/wait"
 
-	"github.com/owner/dbfork/internal/config"
+	"github.com/Meru143/dbfork/internal/config"
 )
 
 func TestDiffTablesReturnsAddedAndDroppedTables(t *testing.T) {

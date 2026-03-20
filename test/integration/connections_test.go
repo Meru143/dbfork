@@ -8,7 +8,7 @@ import (
 
 	"github.com/jackc/pgx/v5"
 
-	"github.com/owner/dbfork/internal/postgres"
+	"github.com/Meru143/dbfork/internal/postgres"
 )
 
 func TestTerminateIdleConnections(t *testing.T) {

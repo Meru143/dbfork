@@ -1,7 +1,7 @@
 # dbfork
 
-[![Go Version](https://img.shields.io/badge/go-1.25.6-00ADD8?logo=go)](https://go.dev/)
-[![CI](https://github.com/owner/dbfork/actions/workflows/ci.yml/badge.svg)](https://github.com/owner/dbfork/actions/workflows/ci.yml)
+[![Go Version](https://img.shields.io/badge/go-1.25.8-00ADD8?logo=go)](https://go.dev/)
+[![CI](https://github.com/Meru143/dbfork/actions/workflows/ci.yml/badge.svg)](https://github.com/Meru143/dbfork/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](./LICENSE)
 
 Git-style branching for local Postgres databases.
@@ -19,7 +19,7 @@ Git-style branching for local Postgres databases.
 ### Go install
 
 ```bash
-go install github.com/owner/dbfork/cmd/dbfork@latest
+go install github.com/Meru143/dbfork/cmd/dbfork@latest
 ```
 
 ### Homebrew
@@ -34,7 +34,7 @@ Download a release archive from the GitHub Releases page and unpack the binary f
 
 ```bash
 docker-compose up -d
-go install github.com/owner/dbfork/cmd/dbfork@latest
+go install github.com/Meru143/dbfork/cmd/dbfork@latest
 dbfork init
 dbfork create feature-add-users
 dbfork list

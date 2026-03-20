@@ -8,7 +8,7 @@ import (
 
 	"github.com/charmbracelet/lipgloss"
 
-	"github.com/owner/dbfork/internal/postgres"
+	"github.com/Meru143/dbfork/internal/postgres"
 )
 
 var (

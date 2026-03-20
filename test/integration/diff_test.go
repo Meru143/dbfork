@@ -6,7 +6,7 @@ import (
 	"context"
 	"testing"
 
-	"github.com/owner/dbfork/internal/postgres"
+	"github.com/Meru143/dbfork/internal/postgres"
 )
 
 func TestDiffEmpty(t *testing.T) {

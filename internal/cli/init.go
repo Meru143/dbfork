@@ -15,8 +15,8 @@ import (
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 
-	"github.com/owner/dbfork/internal/config"
-	"github.com/owner/dbfork/internal/postgres"
+	"github.com/Meru143/dbfork/internal/config"
+	"github.com/Meru143/dbfork/internal/postgres"
 )
 
 var initCmd = &cobra.Command{

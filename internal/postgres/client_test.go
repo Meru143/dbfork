@@ -4,7 +4,7 @@ import (
 	"context"
 	"testing"
 
-	"github.com/owner/dbfork/internal/config"
+	"github.com/Meru143/dbfork/internal/config"
 )
 
 func TestBuildDSNWithPassword(t *testing.T) {
