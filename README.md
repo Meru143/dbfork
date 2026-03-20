@@ -4,9 +4,13 @@
 [![CI](https://github.com/Meru143/dbfork/actions/workflows/ci.yml/badge.svg)](https://github.com/Meru143/dbfork/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](./LICENSE)
 
-Git-style branching for local Postgres databases.
+Fast local PostgreSQL database branching for migrations, schema testing, and isolated development workflows.
 
-`dbfork` creates instant local database branches with PostgreSQL's native `CREATE DATABASE ... TEMPLATE` feature. You keep one Postgres instance, clone your development database in seconds, test migrations safely, inspect schema drift, and tear branches down when you are done.
+`dbfork` is a Go CLI for local Postgres development. It creates instant database branches with PostgreSQL's native `CREATE DATABASE ... TEMPLATE` feature, so you can clone your development database in seconds, test migrations safely, inspect schema drift, and tear branches down when you are done.
+
+- Clone a local PostgreSQL database in seconds instead of waiting on `pg_dump | pg_restore`
+- Give each feature or migration its own disposable database branch
+- Diff branch schema against the source database before you merge changes
 
 ## Why dbfork?
 
