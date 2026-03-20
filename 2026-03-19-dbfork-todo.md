@@ -23,7 +23,7 @@
 - [x] Create `internal/config/` directory
 - [x] Create `internal/output/` directory
 - [x] Create `test/integration/` directory
-- [ ] Create `test/fixtures/` directory
+- [x] Create `test/fixtures/` directory
 - [ ] Create `test/fixtures/schema.sql` with tables, indexes, and constraints for tests
 - [ ] Create `.github/workflows/` directory
 
