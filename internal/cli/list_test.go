@@ -3,6 +3,8 @@ package cli
 import (
 	"bytes"
 	"context"
+	"os"
+	"path/filepath"
 	"strings"
 	"testing"
 	"time"
@@ -104,4 +106,32 @@ func mustParseTime(t *testing.T, value string) time.Time {
 		t.Fatalf("parse time %q: %v", value, err)
 	}
 	return parsed
+}
+
+func TestReadActiveBranchFileReturnsTrimmedValue(t *testing.T) {
+	tempDir := t.TempDir()
+	oldWD, err := os.Getwd()
+	if err != nil {
+		t.Fatalf("get working directory: %v", err)
+	}
+	defer func() {
+		_ = os.Chdir(oldWD)
+	}()
+
+	if err := os.Chdir(tempDir); err != nil {
+		t.Fatalf("change working directory: %v", err)
+	}
+
+	if err := os.WriteFile(filepath.Join(tempDir, ".dbfork"), []byte("feature-add-users\n"), 0o600); err != nil {
+		t.Fatalf("write active branch file: %v", err)
+	}
+
+	got, err := readActiveBranchFile()
+	if err != nil {
+		t.Fatalf("read active branch file: %v", err)
+	}
+
+	if got != "feature-add-users" {
+		t.Fatalf("expected trimmed branch name, got %q", got)
+	}
 }

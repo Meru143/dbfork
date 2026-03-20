@@ -3,6 +3,7 @@ package cli
 import (
 	"bytes"
 	"context"
+	"errors"
 	"strings"
 	"testing"
 	"time"
@@ -130,6 +131,65 @@ func TestCreateCommandIsRegistered(t *testing.T) {
 
 	if cmd == nil || cmd.Use != "create <name>" {
 		t.Fatalf("expected create command to be registered, got %#v", cmd)
+	}
+}
+
+func TestRunCreateReturnsE002WhenMaintenanceConnectionFails(t *testing.T) {
+	err := runCreate(context.Background(), createDeps{
+		loadConfig: func() (config.Config, error) {
+			return config.Config{Host: "localhost", Port: 5432, User: "tester", Database: "myapp_development"}, nil
+		},
+		loadState: func() (*state.State, error) {
+			return &state.State{Version: 1, Branches: []state.Branch{}}, nil
+		},
+		connectMaintenance: func(context.Context, config.Config) (*pgx.Conn, error) {
+			return nil, errors.New("dial failed")
+		},
+		output: &bytes.Buffer{},
+	}, "feature-add-users", "")
+	if err == nil {
+		t.Fatal("expected connection error")
+	}
+
+	if !strings.Contains(err.Error(), "Cannot connect to postgres://tester@localhost:5432. Check your config with 'dbfork init'.") {
+		t.Fatalf("unexpected error: %v", err)
+	}
+}
+
+func TestRunCreateReturnsE004WhenUserLacksCreateDBPrivilege(t *testing.T) {
+	err := runCreate(context.Background(), createDeps{
+		loadConfig: func() (config.Config, error) {
+			return config.Config{Host: "localhost", Port: 5432, User: "tester", Database: "myapp_development"}, nil
+		},
+		loadState: func() (*state.State, error) {
+			return &state.State{Version: 1, Branches: []state.Branch{}}, nil
+		},
+		connectMaintenance: func(context.Context, config.Config) (*pgx.Conn, error) {
+			return nil, nil
+		},
+		hasCreateDBPrivilege: func(context.Context, *pgx.Conn) (bool, error) {
+			return false, nil
+		},
+		output: &bytes.Buffer{},
+	}, "feature-add-users", "")
+	if err == nil {
+		t.Fatal("expected privilege error")
+	}
+
+	if !strings.Contains(err.Error(), "User 'tester' does not have CREATEDB privilege. Grant with: ALTER USER tester CREATEDB;") {
+		t.Fatalf("unexpected error: %v", err)
+	}
+}
+
+func TestStartCreateSpinnerWritesOutput(t *testing.T) {
+	var output bytes.Buffer
+
+	stop := startCreateSpinner(&output)
+	time.Sleep(150 * time.Millisecond)
+	stop()
+
+	if output.Len() == 0 {
+		t.Fatal("expected spinner output to be written")
 	}
 }
 

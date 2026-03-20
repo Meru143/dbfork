@@ -2,6 +2,8 @@ package output
 
 import (
 	"bytes"
+	"io"
+	"os"
 	"strings"
 	"testing"
 
@@ -55,5 +57,27 @@ func TestRenderDiffToPrintsTableAndColumnChanges(t *testing.T) {
 		if !strings.Contains(got, want) {
 			t.Fatalf("expected diff output to contain %q, got %q", want, got)
 		}
+	}
+}
+
+func TestRenderDiffWritesToStdout(t *testing.T) {
+	oldStdout := os.Stdout
+	reader, writer, err := os.Pipe()
+	if err != nil {
+		t.Fatalf("create stdout pipe: %v", err)
+	}
+
+	os.Stdout = writer
+	RenderDiff(&postgres.SchemaDiff{AddedTables: []string{"widgets"}})
+	_ = writer.Close()
+	os.Stdout = oldStdout
+
+	data, err := io.ReadAll(reader)
+	if err != nil {
+		t.Fatalf("read stdout: %v", err)
+	}
+
+	if !strings.Contains(string(data), "widgets") {
+		t.Fatalf("expected stdout diff output, got %q", string(data))
 	}
 }

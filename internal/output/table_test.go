@@ -2,6 +2,8 @@ package output
 
 import (
 	"bytes"
+	"io"
+	"os"
 	"strings"
 	"testing"
 )
@@ -39,5 +41,27 @@ func TestRenderBranchListToPrintsHeadersAndRows(t *testing.T) {
 
 	if strings.Contains(got, "|") {
 		t.Fatalf("expected borderless output, got %q", got)
+	}
+}
+
+func TestRenderBranchListWritesToStdout(t *testing.T) {
+	oldStdout := os.Stdout
+	reader, writer, err := os.Pipe()
+	if err != nil {
+		t.Fatalf("create stdout pipe: %v", err)
+	}
+
+	os.Stdout = writer
+	RenderBranchList([]BranchRow{{Name: "feature-add-users", Source: "myapp_development", Created: "now", SizeMB: "1.0", Status: "ready"}})
+	_ = writer.Close()
+	os.Stdout = oldStdout
+
+	data, err := io.ReadAll(reader)
+	if err != nil {
+		t.Fatalf("read stdout: %v", err)
+	}
+
+	if !strings.Contains(string(data), "feature-add-users") {
+		t.Fatalf("expected stdout output, got %q", string(data))
 	}
 }
