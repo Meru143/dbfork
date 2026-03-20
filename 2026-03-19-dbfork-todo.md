@@ -19,7 +19,7 @@
 - [x] Create `cmd/dbfork/main.go` with `func main() { cli.Execute() }`
 - [x] Create `internal/cli/` directory
 - [x] Create `internal/postgres/` directory
-- [ ] Create `internal/state/` directory
+- [x] Create `internal/state/` directory
 - [ ] Create `internal/config/` directory
 - [ ] Create `internal/output/` directory
 - [ ] Create `test/integration/` directory
