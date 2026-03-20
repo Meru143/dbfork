@@ -1,0 +1,31 @@
+version: 2
+
+project_name: dbfork
+
+builds:
+  - id: dbfork
+    main: ./cmd/dbfork
+    binary: dbfork
+    goos:
+      - linux
+      - darwin
+      - windows
+    goarch:
+      - amd64
+      - arm64
+    ignore:
+      - goos: windows
+        goarch: arm64
+
+archives:
+  - id: default
+    ids:
+      - dbfork
+    formats:
+      - tar.gz
+    format_overrides:
+      - goos: windows
+        format: zip
+
+checksum:
+  name_template: "checksums.txt"

@@ -73,12 +73,12 @@
 - [x] Implement `Ping(ctx context.Context, conn *pgx.Conn) error` with a simple `SELECT 1` query
 
 ### 1.8 Build and Release
-- [ ] Create `.goreleaser.yml` with builds for: `linux/amd64`, `linux/arm64`, `darwin/amd64`, `darwin/arm64`, `windows/amd64`
-- [ ] Set archive format to `.tar.gz` for Unix, `.zip` for Windows
-- [ ] Add `checksum: name_template: "checksums.txt"` to goreleaser config
-- [ ] Create `Makefile` with: `build`, `install`, `test`, `test-integration`, `lint`, `release-dry`
-- [ ] Add `make build` target: `go build -o bin/dbfork ./cmd/dbfork/`
-- [ ] Add `make install` target: `go install ./cmd/dbfork/`
+- [x] Create `.goreleaser.yml` with builds for: `linux/amd64`, `linux/arm64`, `darwin/amd64`, `darwin/arm64`, `windows/amd64`
+- [x] Set archive format to `.tar.gz` for Unix, `.zip` for Windows
+- [x] Add `checksum: name_template: "checksums.txt"` to goreleaser config
+- [x] Create `Makefile` with: `build`, `install`, `test`, `test-integration`, `lint`, `release-dry`
+- [x] Add `make build` target: `go build -o bin/dbfork ./cmd/dbfork/`
+- [x] Add `make install` target: `go install ./cmd/dbfork/`
 
 ---
 
