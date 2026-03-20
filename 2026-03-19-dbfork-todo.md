@@ -324,32 +324,32 @@
 ## Phase 8: Integration Tests
 
 ### 8.1 Test Container Setup
-- [ ] Create `test/integration/main_test.go`
-- [ ] In `TestMain(m *testing.M)`: call `testcontainers.GenericContainer()` with `postgres:17-alpine` image
-- [ ] Set env vars: `POSTGRES_PASSWORD=test`, `POSTGRES_USER=test`, `POSTGRES_DB=testdb`
-- [ ] Wait for container using `wait.ForLog("database system is ready")`
-- [ ] Get mapped port: `container.MappedPort(ctx, "5432")`
-- [ ] Set global `testConn` connection for all tests
-- [ ] Execute `test/fixtures/schema.sql` to set up test tables
-- [ ] Call `defer container.Terminate(ctx)` to clean up
+- [x] Create `test/integration/main_test.go`
+- [x] In `TestMain(m *testing.M)`: call `testcontainers.GenericContainer()` with `postgres:17-alpine` image
+- [x] Set env vars: `POSTGRES_PASSWORD=test`, `POSTGRES_USER=test`, `POSTGRES_DB=testdb`
+- [x] Wait for container using `wait.ForLog("database system is ready")`
+- [x] Get mapped port: `container.MappedPort(ctx, "5432")`
+- [x] Set global `testConn` connection for all tests
+- [x] Execute `test/fixtures/schema.sql` to set up test tables
+- [x] Call `defer container.Terminate(ctx)` to clean up
 
 ### 8.2 Create Branch Tests
-- [ ] Create `test/integration/create_test.go`
-- [ ] `TestCreateBranch`: call `CreateBranch()` with unique name, assert `DatabaseExists()` returns true
-- [ ] `TestCreateBranchHasSameSchema`: after create, connect to branch DB, query `information_schema.tables`, assert same table names as source
-- [ ] `TestCreateBranchDuplicateName`: create same branch twice, assert second call returns `ErrBranchExists`
-- [ ] `TestDropBranch`: create branch, call `DropBranch()`, assert `DatabaseExists()` returns false
+- [x] Create `test/integration/create_test.go`
+- [x] `TestCreateBranch`: call `CreateBranch()` with unique name, assert `DatabaseExists()` returns true
+- [x] `TestCreateBranchHasSameSchema`: after create, connect to branch DB, query `information_schema.tables`, assert same table names as source
+- [x] `TestCreateBranchDuplicateName`: create same branch twice, assert second call returns `ErrBranchExists`
+- [x] `TestDropBranch`: create branch, call `DropBranch()`, assert `DatabaseExists()` returns false
 
 ### 8.3 Diff Tests
-- [ ] Create `test/integration/diff_test.go`
-- [ ] `TestDiffEmpty`: create branch, call `ComputeSchemaDiff()`, assert all arrays empty
-- [ ] `TestDiffAddedColumn`: create branch, execute `ALTER TABLE users ADD COLUMN bio TEXT` on branch, call diff, assert `bio` in `ColumnDiff` with status `added`
-- [ ] `TestDiffDroppedTable`: create branch, `DROP TABLE sessions` on branch, call diff, assert `sessions` in `DroppedTables`
+- [x] Create `test/integration/diff_test.go`
+- [x] `TestDiffEmpty`: create branch, call `ComputeSchemaDiff()`, assert all arrays empty
+- [x] `TestDiffAddedColumn`: create branch, execute `ALTER TABLE users ADD COLUMN bio TEXT` on branch, call diff, assert `bio` in `ColumnDiff` with status `added`
+- [x] `TestDiffDroppedTable`: create branch, `DROP TABLE sessions` on branch, call diff, assert `sessions` in `DroppedTables`
 
 ### 8.4 Connections Tests
-- [ ] Create `test/integration/connections_test.go`
-- [ ] `TestTerminateIdleConnections`: open idle connection to source DB in goroutine, call `TerminateIdleConnections()`, assert count = 1
-- [ ] `TestGetDatabaseSizeMB`: call `GetDatabaseSizeMB()` on test DB, assert returned value > 0
+- [x] Create `test/integration/connections_test.go`
+- [x] `TestTerminateIdleConnections`: open idle connection to source DB in goroutine, call `TerminateIdleConnections()`, assert count = 1
+- [x] `TestGetDatabaseSizeMB`: call `GetDatabaseSizeMB()` on test DB, assert returned value > 0
 
 ---
 
