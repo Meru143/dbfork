@@ -1,5 +1,12 @@
 ## [Unreleased]
 
+## [v0.1.1] - 2026-03-21
+
+### Fixed
+
+- README demo now shows the real public `dbfork` commands instead of a temporary build path
+- Demo generator records the CLI through `PATH`, keeping the published GIF aligned with the actual install experience
+
 ## [v0.1.0] - 2026-03-21
 
 ### Added
