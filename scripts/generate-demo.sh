@@ -117,6 +117,7 @@ intro() {
 export HOME="\$demo_home"
 export GOPATH="\$demo_home/go"
 export GOMODCACHE="\$demo_home/go/pkg/mod"
+export PATH="$demo_work:\$PATH"
 mkdir -p "\$GOMODCACHE"
 
 cd "\$repo_root"
@@ -128,21 +129,21 @@ run_command "docker compose up -d" 1
 run_command "until docker exec dbfork-postgres pg_isready -U postgres -d myapp_development >/dev/null 2>&1; do sleep 1; done" 0.5
 
 section "Initialize dbfork"
-run_command "printf 'localhost\\\\n5432\\\\npostgres\\\\npostgres\\\\nmyapp_development\\\\n' | \$demo_bin init" 1.5
+run_command "printf 'localhost\\\\n5432\\\\npostgres\\\\npostgres\\\\nmyapp_development\\\\n' | dbfork init" 1.5
 
 section "Seed the source database"
 run_command "docker exec dbfork-postgres psql -v ON_ERROR_STOP=1 -U postgres -d myapp_development -c \\\"DROP TABLE IF EXISTS users; CREATE TABLE users (id SERIAL PRIMARY KEY, name TEXT NOT NULL);\\\"" 1.5
 
 section "Create and inspect a branch"
-run_command "\$demo_bin create feature-add-users" 1.5
-run_command "\$demo_bin list" 1.5
+run_command "dbfork create feature-add-users" 1.5
+run_command "dbfork list" 1.5
 
 section "Change the branch schema"
 run_command "docker exec dbfork-postgres psql -v ON_ERROR_STOP=1 -U postgres -d dbfork_feature_add_users -c \\\"ALTER TABLE users ADD COLUMN email TEXT;\\\"" 1.5
-run_command "\$demo_bin diff feature-add-users" 2.5
+run_command "dbfork diff feature-add-users" 2.5
 
 section "Clean up"
-run_command "\$demo_bin drop feature-add-users --force" 2
+run_command "dbfork drop feature-add-users --force" 2
 EOF
 
 chmod +x "$session_script"
