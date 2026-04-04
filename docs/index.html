@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>dbfork | Local PostgreSQL database branching in seconds</title>
+    <meta
+      name="description"
+      content="Create disposable local PostgreSQL database branches in seconds for migrations, schema testing, and isolated development."
+    />
+    <meta property="og:title" content="dbfork | Local PostgreSQL database branching in seconds" />
+    <meta
+      property="og:description"
+      content="Clone a local Postgres database with CREATE DATABASE ... TEMPLATE, test migrations safely, and tear branches down when you are done."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://merup.me/dbfork/" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="shell">
+      <header class="site-header">
+        <a class="brand" href="https://github.com/Meru143/dbfork">dbfork</a>
+        <nav class="nav">
+          <a href="#why">Why</a>
+          <a href="#speed">Speed</a>
+          <a href="#install">Install</a>
+          <a href="https://github.com/Meru143/dbfork">GitHub</a>
+        </nav>
+      </header>
+
+      <main>
+        <section class="hero">
+          <div class="hero-copy">
+            <p class="eyebrow">Disposable local Postgres branches</p>
+            <h1>Clone a development database in seconds, not minutes.</h1>
+            <p class="lede">
+              dbfork uses PostgreSQL's native <code>CREATE DATABASE ... TEMPLATE</code>
+              path to create local database branches fast enough for daily development,
+              migration testing, schema diffing, and feature-isolated workflows.
+            </p>
+            <div class="actions">
+              <a class="button primary" href="https://github.com/Meru143/dbfork">
+                Star on GitHub
+              </a>
+              <a class="button secondary" href="#install">Install dbfork</a>
+            </div>
+            <div class="pills">
+              <span>PostgreSQL templates</span>
+              <span>migration safety</span>
+              <span>schema diff</span>
+              <span>local-first</span>
+            </div>
+          </div>
+
+          <div class="hero-visual">
+            <img src="./assets/dbfork-demo.gif" alt="dbfork demo showing local database branching" />
+          </div>
+        </section>
+
+        <section id="why" class="section">
+          <div class="section-head">
+            <p class="eyebrow">Why dbfork</p>
+            <h2>The missing branch workflow for local Postgres development.</h2>
+            <p>
+              Feature branches for code are normal. Feature branches for the local
+              database usually are not, which is why migration testing and schema
+              experiments still fall back to slow dump and restore loops. dbfork closes
+              that gap with a workflow that feels instant enough to use every day.
+            </p>
+          </div>
+
+          <div class="grid">
+            <article class="feature">
+              <h3>Server-side clone path</h3>
+              <p>
+                PostgreSQL duplicates the database on disk instead of streaming rows
+                through a client process, which is why the branching loop feels fast.
+              </p>
+            </article>
+            <article class="feature">
+              <h3>Safe migration testing</h3>
+              <p>
+                Give a migration its own disposable branch, run the change, inspect the
+                result, and drop the branch when the experiment is over.
+              </p>
+            </article>
+            <article class="feature">
+              <h3>Schema diff workflow</h3>
+              <p>
+                Compare the branch against the source database before merge so drift and
+                accidental changes show up before they become shared state.
+              </p>
+            </article>
+            <article class="feature">
+              <h3>No extra infrastructure</h3>
+              <p>
+                No hosted service, no storage layer, and no heavy multi-container branch
+                system. If you already have local Postgres, you already have the primitive.
+              </p>
+            </article>
+          </div>
+        </section>
+
+        <section id="speed" class="section">
+          <div class="section-head">
+            <p class="eyebrow">Speed story</p>
+            <h2>Use the local database like code, not like a fragile shared pet.</h2>
+            <p>
+              The public benchmark framing in the repo is the right mental model: for a
+              1 GB development database, dump and restore usually takes minutes, while
+              template cloning typically finishes in a few seconds on the same machine.
+            </p>
+          </div>
+
+          <div class="compare">
+            <div class="compare-card strong">
+              <h3>dbfork</h3>
+              <p class="metric">1 to 3 seconds</p>
+              <p>Server-side template clone, built for repeated use during active development.</p>
+            </div>
+            <div class="compare-card">
+              <h3>pg_dump | pg_restore</h3>
+              <p class="metric">2 to 5 minutes</p>
+              <p>Good for backup-style workflows, too slow for every migration and feature branch.</p>
+            </div>
+          </div>
+        </section>
+
+        <section id="install" class="section">
+          <div class="section-head">
+            <p class="eyebrow">Install</p>
+            <h2>Branch, test, inspect, drop.</h2>
+            <p>
+              dbfork is most convincing when you can try it against your existing local
+              instance immediately. The page keeps the install and first-use path short on purpose.
+            </p>
+          </div>
+
+          <div class="install-grid">
+            <pre><code>go install github.com/Meru143/dbfork/cmd/dbfork@latest
+
+dbfork create feature_migration
+dbfork diff feature_migration
+dbfork drop feature_migration --force</code></pre>
+            <pre><code>Use it for:
+
+- migration rehearsals
+- schema experiments
+- isolated feature branches
+- branch-vs-source diffing</code></pre>
+          </div>
+        </section>
+      </main>
+    </div>
+  </body>
+</html>

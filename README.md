@@ -6,6 +6,10 @@
 
 Fast local PostgreSQL database branching for migrations, schema testing, and isolated development workflows.
 
+The pitch is simple: treat your local database like code. Create a disposable branch in seconds, test the migration, inspect the diff, and drop it when you are done.
+
+Live page: [merup.me/dbfork](https://merup.me/dbfork/)
+
 `dbfork` is a Go CLI for local Postgres development. It creates instant database branches with PostgreSQL's native `CREATE DATABASE ... TEMPLATE` feature, so you can clone your development database in seconds, test migrations safely, inspect schema drift, and tear branches down when you are done.
 
 - Clone a local PostgreSQL database in seconds instead of waiting on `pg_dump | pg_restore`
