@@ -59,8 +59,24 @@
             </div>
           </div>
 
-          <div class="hero-visual">
-            <img src="./assets/dbfork-demo.gif" alt="dbfork demo showing local database branching" />
+          <div class="hero-proof">
+            <div class="compare-card strong">
+              <h3>dbfork</h3>
+              <p class="metric">1 to 3 seconds</p>
+              <p>Server-side template clone, built for repeated use during active development.</p>
+            </div>
+            <div class="compare-card">
+              <h3>pg_dump | pg_restore</h3>
+              <p class="metric">2 to 5 minutes</p>
+              <p>Good for backup-style workflows, too slow for every migration and feature branch.</p>
+            </div>
+            <pre class="hero-terminal"><code>$ dbfork create feature_migration
+created feature_migration from postgres_dev
+
+$ dbfork diff feature_migration
+tables changed: 3
+columns added: 5
+indexes changed: 1</code></pre>
           </div>
         </section>
 
@@ -119,17 +135,21 @@
             </p>
           </div>
 
-          <div class="compare">
-            <div class="compare-card strong">
-              <h3>dbfork</h3>
-              <p class="metric">1 to 3 seconds</p>
-              <p>Server-side template clone, built for repeated use during active development.</p>
-            </div>
-            <div class="compare-card">
-              <h3>pg_dump | pg_restore</h3>
-              <p class="metric">2 to 5 minutes</p>
-              <p>Good for backup-style workflows, too slow for every migration and feature branch.</p>
-            </div>
+          <div class="workflow-grid">
+            <article class="feature">
+              <h3>Branch fast enough to use it daily</h3>
+              <p>
+                The performance win matters because developers only keep a branch workflow
+                when it feels as disposable as a git branch.
+              </p>
+            </article>
+            <article class="feature">
+              <h3>Inspect before merge</h3>
+              <p>
+                Compare the branch against the source database, review drift, and only
+                keep the experiment when the schema change is real.
+              </p>
+            </article>
           </div>
         </section>
 
