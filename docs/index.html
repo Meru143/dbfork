@@ -15,6 +15,11 @@
     />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://merup.me/dbfork/" />
+    <meta property="og:image" content="https://merup.me/og/dbfork.jpg" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="https://merup.me/og/dbfork.jpg" />
+    <link rel="canonical" href="https://merup.me/dbfork/" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -126,12 +131,12 @@ indexes changed: 1</code></pre>
 
         <section id="speed" class="section">
           <div class="section-head">
-            <p class="eyebrow">Speed story</p>
+            <p class="eyebrow">Speed</p>
             <h2>Use the local database like code, not like a fragile shared pet.</h2>
             <p>
-              The public benchmark framing in the repo is the right mental model: for a
-              1 GB development database, dump and restore usually takes minutes, while
-              template cloning typically finishes in a few seconds on the same machine.
+              For a 1 GB development database, dump and restore usually takes minutes,
+              while template cloning typically finishes in a few seconds on the same
+              machine.
             </p>
           </div>
 
@@ -139,8 +144,8 @@ indexes changed: 1</code></pre>
             <article class="feature">
               <h3>Branch fast enough to use it daily</h3>
               <p>
-                The performance win matters because developers only keep a branch workflow
-                when it feels as disposable as a git branch.
+                A branch takes seconds to create, so it can be as disposable as a git
+                branch: make one per experiment, drop it when you are done.
               </p>
             </article>
             <article class="feature">
@@ -158,8 +163,7 @@ indexes changed: 1</code></pre>
             <p class="eyebrow">Install</p>
             <h2>Branch, test, inspect, drop.</h2>
             <p>
-              dbfork is most convincing when you can try it against your existing local
-              instance immediately. The page keeps the install and first-use path short on purpose.
+              Try it against your existing local Postgres.
             </p>
           </div>
 
@@ -178,6 +182,12 @@ dbfork drop feature_migration --force</code></pre>
           </div>
         </section>
       </main>
+
+      <footer class="site-footer">
+        An instrument by <a href="https://merup.me/">Meru Patel</a> ·
+        <a href="https://merup.me/work/dbfork">Case study</a> ·
+        <a href="https://merup.me/#work">More instruments</a>
+      </footer>
     </div>
   </body>
 </html>
