@@ -1,5 +1,9 @@
 ## [Unreleased]
 
+### Security
+
+- Upgraded `github.com/jackc/pgx/v5` to v5.9.2 (GO-2026-5004) and `golang.org/x/text` to v0.41.0 (GO-2026-5970, GO-2026-6629)
+
 ## [v0.1.1] - 2026-03-21
 
 ### Fixed
